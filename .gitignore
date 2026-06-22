@@ -9,6 +9,9 @@ artifacts/
 *.parquet
 *.npz
 
+# Local working notes / design docs (not part of the evaluated deliverable)
+docs/
+
 # Python
 __pycache__/
 *.pyc
