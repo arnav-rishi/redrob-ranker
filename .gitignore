@@ -1,0 +1,20 @@
+# Raw competition data — never commit
+candidates.jsonl
+candidates.jsonl.gz
+*.jsonl
+*.jsonl.gz
+
+# Generated artifacts (rebuildable from precompute.py)
+artifacts/
+*.parquet
+*.npz
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+
+# OS
+.DS_Store
