@@ -1,0 +1,34 @@
+# Scoring weights and thresholds. Nothing hardcoded in scorer.py -- everything
+# tunable lives here. See docs/STEP5_SPEC.md for rationale.
+
+weights:
+  skill: 0.34
+  traj: 0.20
+  exp: 0.16
+  lexical: 0.14
+  loc: 0.10
+  edu: 0.06
+  # role excluded -- applied as a multiplicative gate (role_fit.py), not additive
+
+trajectory_penalties:
+  consulting_full_career: 0.55
+  consulting_current_only: 0.10
+  title_chasing: 0.25
+  cv_speech_robotics_only: 0.30   # new, Step 5
+  langchain_only_recent: 0.20     # new, Step 5
+  product_company_bonus_cap: 0.20
+
+availability:
+  inactive_days_threshold: 180    # recalibrated from 120, see docs/STEP5_SPEC.md S3F
+  inactive_penalty_mult: 0.75
+  notice_period_ideal_days: 30
+  notice_period_long_days: 90
+
+skill_trust:
+  duration_cap_months: 24
+  endorsement_cap: 20
+  text_corroboration_fallback: 0.45
+
+lexical:
+  max_features: 20000
+  ngram_range: [1, 2]

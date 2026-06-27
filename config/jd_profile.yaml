@@ -101,13 +101,23 @@ experience:
 # JD "explicitly do NOT want" -> soft penalties (never hard zeros -- JD says
 # "currently at consulting *with prior product experience* is fine")
 penalize:
-  consulting_only: true              # JD: entire career at TCS/Infosys/... -> bad fit
-  title_chasing: true                # JD: Senior->Staff->Principal via <=1.5yr hops
-  research_only_no_prod: true        # JD: pure academic/research, no production -> will NOT move forward
-  cv_speech_robotics_only: true       # JD: primary CV/speech/robotics, no NLP/IR exposure
-  langchain_only_recent: true         # JD: only <12mo LangChain+OpenAI, no prior ML
-  framework_enthusiast: true          # JD: "GitHub full of LangChain tutorials" / demo blog posts
-  closed_source_no_validation: true   # JD: 5+ yrs entirely closed-source, no external validation
+  consulting_only: true               # JD: entire career at TCS/Infosys/... -> bad fit
+  title_chasing: true                 # JD: Senior->Staff->Principal via <=1.5yr hops
+  cv_speech_robotics_only: true        # JD: primary CV/speech/robotics, no NLP/IR exposure
+  langchain_only_recent: true          # JD: only <12mo LangChain+OpenAI, no prior ML
+  # The 3 below were audited against the real data (docs/STEP5_SPEC.md S1) and
+  # found NOT cleanly detectable from this schema -- disabled rather than
+  # faking weak/broad detection:
+  research_only_no_prod: false        # no signal: PhD is common+uniform (~17.5K),
+                                       # zero headline/summary mentions of
+                                       # "phd"/"research scientist"/"postdoc",
+                                       # no "Research"/"Academic" industry value
+  framework_enthusiast: false         # no signal beyond langchain_only_recent;
+                                       # github_activity_score alone can't tell
+                                       # tutorial-grade activity from real work
+  closed_source_no_validation: false  # proxy (no github + long tenure) hits
+                                       # 32-43% of the pool -- too broad to be
+                                       # a meaningful filter
 
 consulting_firms: [tcs, infosys, wipro, accenture, cognizant, capgemini, mindtree,
                    tech mahindra, hcl, ltimindtree, mphasis]

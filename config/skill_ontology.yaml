@@ -33,7 +33,16 @@ ranking_recsys:
    collaborative filtering, retrieval ranking, content matching, information retrieval,
    information retrieval systems]
 
-python: [python, pyspark, numpy, pandas, scikit-learn, pytorch, tensorflow]
+python: [python, pyspark, numpy, pandas, scikit-learn, pytorch, tensorflow,
+         machine learning, deep learning]
+  # machine learning / deep learning added after auditing _in_group matches
+  # against all 133 real skill names (Step 5): same frequency tier (~1300-1400
+  # occurrences) as python/pytorch/nlp -- all already mapped -- so leaving
+  # these two unmapped was an oversight, not a deliberate scope boundary.
+  # (Data Science/Forecasting/Time Series/Statistical Modeling/Feature
+  # Engineering/Reinforcement Learning are a DIFFERENT, higher-frequency
+  # ~4600-4800 tier and are deliberately left unmapped -- generic data-science
+  # terms this JD doesn't specifically ask for.)
 
 evaluation:
   [ndcg, mrr, map, a/b test, ab testing, offline evaluation, online evaluation,

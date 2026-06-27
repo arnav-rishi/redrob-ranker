@@ -1,0 +1,10 @@
+Senior AI Engineer Founding Team. Production experience with embeddings-based
+retrieval systems deployed to real users, handling embedding drift, index
+refresh, retrieval quality regression. Production experience with vector
+databases or hybrid search infrastructure. Strong Python, code quality.
+Hands-on experience designing evaluation frameworks for ranking systems,
+NDCG, MRR, MAP, offline to online correlation, A/B test interpretation.
+Shipped an end to end ranking, search, or recommendation system to real users
+at meaningful scale. Strong opinions about retrieval hybrid versus dense,
+evaluation offline versus online, LLM integration fine tune versus prompt.
+Owns the intelligence layer: ranking, retrieval, and matching systems.
