@@ -1,0 +1,82 @@
+# No-embedding semantic matcher: curated synonym groups. See docs/STEP3_SPEC.md
+# for the full rationale -- audited against the real 133-skill vocabulary in
+# candidates.jsonl, not guessed. Matching is substring/token-set against both
+# the candidate's skill names AND profile_text.
+#
+# Three frequency tiers observed in the real data:
+#   ~12,000 occurrences each: generic "noise" skills (HTML, Excel, Sales, SQL,
+#     Java, etc.) -- deliberately NOT mapped to any group below. An unmapped
+#     skill contributes nothing to skill_trust, which is the point: noise
+#     should not inflate the score.
+#   ~5,000 occurrences each: AI buzzwords (RAG, Embeddings, LangChain, FAISS,
+#     Computer Vision, etc.) -- the keyword-stuffer trap's bait. Mapped, but
+#     only count when corroborated by duration/proficiency/assessment
+#     (Module 7A, Step 5) -- not by mere presence.
+#   1-7 occurrences each: rare plain-language phrasings (Information Retrieval
+#     Systems, Text Encoders, Vector Representations, etc.) -- this IS the
+#     Tier-5 plain-language-fit trap the JD names explicitly. Every one found
+#     in the real vocabulary is mapped below.
+
+retrieval_embeddings:
+  [embeddings, sentence-transformers, sentence transformers, bge, e5, sbert,
+   dense retrieval, semantic search, rag, retrieval augmented, text embeddings,
+   openai embeddings, text encoders, vector representations, hugging face transformers]
+
+vector_search:
+  [pinecone, weaviate, qdrant, milvus, faiss, opensearch, elasticsearch, pgvector,
+   vector database, vector search, ann, approximate nearest neighbor, hnsw,
+   search backend, search infrastructure, indexing algorithms, search & discovery]
+
+ranking_recsys:
+  [learning to rank, ltr, recommendation, recommender, recommendation systems,
+   recsys, ranking, ranking systems, search relevance, bm25,
+   collaborative filtering, retrieval ranking, content matching, information retrieval,
+   information retrieval systems]
+
+python: [python, pyspark, numpy, pandas, scikit-learn, pytorch, tensorflow]
+
+evaluation:
+  [ndcg, mrr, map, a/b test, ab testing, offline evaluation, online evaluation,
+   ranking metrics, precision recall]
+  # NOTE: zero exact skill-name matches in the real 133-skill vocabulary. This
+  # group only ever fires via _group_in_text corroboration against
+  # profile_text/career descriptions, and even there "a/b test" dominates
+  # (1719 hits) over ndcg/mrr/offline-eval (11-21 hits each). Known dataset
+  # limitation, not a bug -- do not expect strong recall here.
+
+llm_finetuning:
+  [lora, qlora, peft, fine-tuning, fine tuning, fine-tuning llms, instruction tuning,
+   sft, model adaptation]
+
+learning_to_rank:
+  [xgboost, lightgbm, gbdt, gradient boosted, neural ranking]
+
+nlp:
+  [nlp, ner, text classification, transformers, bert, gpt, llm, llms,
+   language model, tokenization, natural language processing, document processing,
+   haystack, llamaindex]
+
+# --- nice_to_have groups referenced by jd_profile.yaml's nice_to_have list --
+# these were missing from the original draft (a dangling reference); defined
+# here to fix that.
+distributed_systems:
+  [kubernetes, docker, kafka, spark, hadoop, airflow, kubeflow, mlflow, bentoml,
+   distributed systems, large-scale, workflow orchestration, microservices, grpc]
+
+open_source:
+  [open-source ml libraries, open source, github, open-source]
+  # NOTE: best detected via github_activity_score (behavioral signal) in
+  # combination with this group, not skill name alone -- see Step 4.
+
+hr_tech:
+  [hr tech, recruiting, recruitment, talent, marketplace, ats,
+   applicant tracking, job matching]
+  # NOTE: current_industry has no "HR-tech"/"recruiting" value in this
+  # dataset (24 distinct industries; closest are e-commerce/food delivery as
+  # marketplace proxies). nice_to_have, so low recall is acceptable here.
+
+# Negative / off-target (used to detect CV/speech-only profiles per the
+# cv_speech_robotics_only penalty)
+off_target:
+  [image classification, gans, object detection, speech recognition, tts, robotics,
+   ocr, yolo, cnn, diffusion models, asr, computer vision]

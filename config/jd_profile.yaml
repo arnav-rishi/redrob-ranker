@@ -1,0 +1,122 @@
+# JD profile, hand-encoded from job_description.docx. See docs/STEP3_SPEC.md
+# for the full rationale and the data audit (47 distinct titles, 133 distinct
+# skills) this was grounded against. No LLM parsing -- read once, encoded by
+# humans.
+
+role: "Senior AI Engineer — Founding Team"
+
+# --- Primary classification: exact lookup over the 47 known titles -------
+# Hand-classified against the JD's "ideal candidate" + skills-inventory
+# sections. Exact match is tried FIRST; the substring fallback below only
+# applies to titles not seen in this dataset (generalizes to the 200K
+# production pool per RedRob.md G8, without sacrificing precision on the
+# 100K we can verify).
+exact_title_map:
+  # reject -- explicit keyword-stuffer trap titles (JD: "not a fit, no matter
+  # how perfect their skill list looks")
+  business analyst: reject
+  hr manager: reject
+  mechanical engineer: reject
+  accountant: reject
+  project manager: reject
+  customer support: reject
+  operations manager: reject
+  content writer: reject
+  sales executive: reject
+  civil engineer: reject
+  graphic designer: reject
+  marketing manager: reject
+
+  # adjacent -- general software/data engineering, plausible per JD's
+  # "adjacent" treatment (boosted if career text shows ML-systems work,
+  # Module 5's _built_ml_systems). computer vision engineer included here
+  # deliberately, not in strong or reject.
+  software engineer: adjacent
+  full stack developer: adjacent
+  cloud engineer: adjacent
+  java developer: adjacent
+  .net developer: adjacent
+  devops engineer: adjacent
+  mobile developer: adjacent
+  frontend engineer: adjacent
+  qa engineer: adjacent
+  analytics engineer: adjacent
+  data engineer: adjacent
+  data analyst: adjacent
+  backend engineer: adjacent
+  senior data engineer: adjacent
+  senior software engineer: adjacent
+  computer vision engineer: adjacent   # JD: respected, but "re-learning
+                                        # fundamentals" without NLP/IR exposure
+                                        # -> handled by cv_speech_robotics_only
+                                        # penalty (career text), not title alone
+
+  # strong -- clear AI/ML-engineering trajectory match
+  ml engineer: strong
+  ai research engineer: strong
+  data scientist: strong
+  senior software engineer (ml): strong   # explicit "(ML)" qualifier
+  junior ml engineer: strong
+  ai specialist: strong
+  recommendation systems engineer: strong
+  machine learning engineer: strong
+  applied ml engineer: strong
+  search engineer: strong
+  ai engineer: strong
+  senior data scientist: strong
+  nlp engineer: strong
+  senior nlp engineer: strong
+  senior machine learning engineer: strong
+  staff machine learning engineer: strong
+  senior ai engineer: strong
+  senior applied scientist: strong
+  lead ai engineer: strong
+
+# Fallback substring patterns -- only consulted if a title isn't in
+# exact_title_map above (i.e. unseen in this 100K, expected on the 200K pool).
+role_titles:
+  strong:   [ai engineer, ml engineer, machine learning engineer, applied scientist,
+              applied ml, nlp engineer, search engineer, ranking engineer,
+              recommendation engineer, recommendation systems, research engineer,
+              mlops engineer, data scientist, ai specialist, ai research]
+  adjacent: [data engineer, backend engineer, software engineer, platform engineer,
+             analytics engineer, software developer, data analyst, devops engineer,
+             cloud engineer, full stack, frontend engineer, qa engineer,
+             computer vision engineer]
+  reject:   [hr manager, recruiter, marketing manager, content writer, graphic designer,
+             accountant, civil engineer, mechanical engineer, sales, project manager,
+             business analyst, operations, customer support]
+
+# Capability groups (see skill_ontology.yaml for synonyms)
+must_have:  [retrieval_embeddings, vector_search, python, ranking_recsys, evaluation]
+nice_to_have: [llm_finetuning, learning_to_rank, hr_tech, distributed_systems, open_source]
+
+experience:
+  ideal_min: 6.0
+  ideal_max: 8.0
+  acceptable_min: 5.0
+  acceptable_max: 9.0
+  hard_floor: 3.0          # below this, heavy penalty (JD disqualifier territory)
+
+# JD "explicitly do NOT want" -> soft penalties (never hard zeros -- JD says
+# "currently at consulting *with prior product experience* is fine")
+penalize:
+  consulting_only: true              # JD: entire career at TCS/Infosys/... -> bad fit
+  title_chasing: true                # JD: Senior->Staff->Principal via <=1.5yr hops
+  research_only_no_prod: true        # JD: pure academic/research, no production -> will NOT move forward
+  cv_speech_robotics_only: true       # JD: primary CV/speech/robotics, no NLP/IR exposure
+  langchain_only_recent: true         # JD: only <12mo LangChain+OpenAI, no prior ML
+  framework_enthusiast: true          # JD: "GitHub full of LangChain tutorials" / demo blog posts
+  closed_source_no_validation: true   # JD: 5+ yrs entirely closed-source, no external validation
+
+consulting_firms: [tcs, infosys, wipro, accenture, cognizant, capgemini, mindtree,
+                   tech mahindra, hcl, ltimindtree, mphasis]
+
+location:
+  best:  [pune, noida]
+  good:  [hyderabad, mumbai, delhi, gurgaon, gurugram, ncr, bangalore, bengaluru]
+  in_country: india
+  # outside India: case-by-case, no visa sponsorship -> down-weight unless willing_to_relocate
+
+notice_period:
+  ideal_days: 30           # JD: "love sub-30-day notice", can buy out up to 30
