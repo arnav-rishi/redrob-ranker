@@ -19,12 +19,15 @@ REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
 import pandas as pd  # noqa: E402
+import scipy.sparse as sp  # noqa: E402
+import yaml  # noqa: E402
 
 from src.features.extract import extract_features  # noqa: E402
+from src.features.lexical import fit_tfidf  # noqa: E402
 from src.ingestion.stream import iter_candidates  # noqa: E402
 
 
-def run(candidates_path, out_dir):
+def run(candidates_path, out_dir, jd_text_path=None, weights_path=None):
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -59,6 +62,22 @@ def run(candidates_path, out_dir):
     print(f"Wrote {out_dir / 'features.parquet'} ({len(df.columns)} columns)")
     print(f"Wrote {out_dir / 'profile_corpus.txt'} ({len(corpus_lines)} lines)")
 
+    # --- Module 6: fit TF-IDF on the full corpus + JD reference text -------
+    tfidf_start = time.time()
+    weights = yaml.safe_load(Path(weights_path).read_text(encoding="utf-8"))
+    jd_text = Path(jd_text_path).read_text(encoding="utf-8")
+    lex_cfg = weights["lexical"]
+    _, candidate_matrix, jd_vec = fit_tfidf(
+        corpus_lines, jd_text,
+        max_features=lex_cfg["max_features"], ngram_range=lex_cfg["ngram_range"],
+    )
+    sp.save_npz(out_dir / "tfidf_index.npz", candidate_matrix)
+    sp.save_npz(out_dir / "tfidf_jd_vector.npz", jd_vec)
+    print(f"Fit TF-IDF in {time.time() - tfidf_start:.1f}s "
+          f"-> {candidate_matrix.shape[0]} x {candidate_matrix.shape[1]} matrix")
+    print(f"Wrote {out_dir / 'tfidf_index.npz'}")
+    print(f"Wrote {out_dir / 'tfidf_jd_vector.npz'}")
+
     try:
         import psutil
         mem = psutil.Process().memory_info()
@@ -80,11 +99,17 @@ def main():
                         help="Path to candidates.jsonl, relative to repo root.")
     parser.add_argument("--out", default="artifacts",
                         help="Output directory for artifacts, relative to repo root.")
+    parser.add_argument("--jd-text", default="config/jd_reference_text.txt",
+                        help="Path to JD reference text, relative to repo root.")
+    parser.add_argument("--weights", default="config/weights.yaml",
+                        help="Path to weights.yaml, relative to repo root.")
     args = parser.parse_args()
 
     candidates_path = (REPO_ROOT / args.candidates).resolve()
     out_dir = (REPO_ROOT / args.out).resolve()
-    run(candidates_path, out_dir)
+    jd_text_path = (REPO_ROOT / args.jd_text).resolve()
+    weights_path = (REPO_ROOT / args.weights).resolve()
+    run(candidates_path, out_dir, jd_text_path, weights_path)
 
 
 if __name__ == "__main__":
