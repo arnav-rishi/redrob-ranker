@@ -10,7 +10,7 @@ substring fallback (role_titles, for titles unseen in this 100K) -> unknown
 
 def role_fit(feat: dict, jd: dict, ontology: dict) -> float:
     title = (feat.get("current_title") or "").strip().lower()
-    bucket = jd["exact_title_map"].get(title) or _classify_via_substring(title, jd["role_titles"])
+    bucket = jd["exact_title_map"].get(title) or classify_via_substring(title, jd["role_titles"])
     titles_all = " ".join((j.get("title") or "").lower() for j in feat.get("career", []))
 
     if bucket == "reject":
@@ -26,7 +26,7 @@ def role_fit(feat: dict, jd: dict, ontology: dict) -> float:
     return 0.70 if _built_ml_systems(feat.get("profile_text", ""), ontology) else 0.35
 
 
-def _classify_via_substring(title, role_titles):
+def classify_via_substring(title, role_titles):
     for bucket in ("reject", "strong", "adjacent"):
         if _match_any(title, role_titles[bucket]):
             return bucket

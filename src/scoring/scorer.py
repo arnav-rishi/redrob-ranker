@@ -7,17 +7,17 @@ role_fit (Module 5) and integrity_mult (Module 7G) live in their own files
 from datetime import date, datetime
 
 
-def _in_group(skill_name, group, ontology):
+def in_group(skill_name, group, ontology):
     name = (skill_name or "").lower()
     return any(term.lower() == name or term.lower() in name for term in ontology.get(group, []))
 
 
-def _group_in_text(group, text, ontology):
+def group_in_text(group, text, ontology):
     text = (text or "").lower()
     return any(term.lower() in text for term in ontology.get(group, []))
 
 
-def _days_since(date_str, ref_date=None):
+def days_since(date_str, ref_date=None):
     if not date_str:
         return 0
     ref_date = ref_date or date.today()
@@ -42,7 +42,7 @@ def skill_trust(feat, jd, ontology, weights):
     for group in jd["must_have"]:
         best = 0.0
         for sk in feat.get("skills", []):
-            if not _in_group(sk.get("name"), group, ontology):
+            if not in_group(sk.get("name"), group, ontology):
                 continue
             prof = _PROFICIENCY_SCORE[sk["proficiency"]]
             dur = min(sk.get("duration_months", 0) / dur_cap, 1.0)
@@ -50,7 +50,7 @@ def skill_trust(feat, jd, ontology, weights):
             asmt = assess.get(sk.get("name"))
             trust = 0.5 * prof * dur + 0.2 * endo + (0.3 * asmt / 100 if asmt is not None else 0.15 * prof * dur)
             best = max(best, trust)
-        if best == 0 and _group_in_text(group, feat.get("profile_text", ""), ontology):
+        if best == 0 and group_in_text(group, feat.get("profile_text", ""), ontology):
             best = text_fallback
         score += best
         if best > 0.4:
@@ -116,6 +116,21 @@ def trajectory_score(feat, jd, ontology, weights):
     return max(0.0, min(s, 1.0))
 
 
+def trajectory_diagnostics(feat, jd):
+    """Two values reasoning.py needs (Step 6) that trajectory_score computes
+    internally but doesn't return. Deliberately a small separate function
+    that recomputes these cheaply, rather than changing trajectory_score's
+    return signature and risking Step 5's already-passing tests."""
+    firms = jd["consulting_firms"]
+    companies = [(j.get("company") or "").lower() for j in feat.get("career", [])]
+    consulting_flags = [any(f in co for f in firms) for co in companies]
+    prod_months = sum(j["duration_months"] for j, c in zip(feat.get("career", []), consulting_flags) if not c)
+    return {
+        "consulting_only": bool(consulting_flags) and all(consulting_flags),
+        "product_months": prod_months,
+    }
+
+
 # --- 3D/3E. Education + Location --------------------------------------------
 def edu_score(feat):
     return 0.6 * feat["edu_best_tier"] + 0.4 * feat["edu_is_cs"]
@@ -141,7 +156,7 @@ def availability_mult(feat, weights, ref_date=None):
     m *= 0.7 + 0.3 * feat["interview_completion_rate"]
     m *= 0.85 + 0.15 * min(feat["profile_completeness"] / 100, 1)
     m *= 0.92 + 0.08 * min(feat["saved_by_recruiters_30d"] / 10, 1)
-    if _days_since(feat.get("last_active_date"), ref_date) > a["inactive_days_threshold"]:
+    if days_since(feat.get("last_active_date"), ref_date) > a["inactive_days_threshold"]:
         m *= a["inactive_penalty_mult"]
     if feat["notice_period_days"] <= a["notice_period_ideal_days"]:
         m *= 1.03

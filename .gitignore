@@ -4,10 +4,13 @@ candidates.jsonl.gz
 *.jsonl
 *.jsonl.gz
 
-# Generated artifacts (rebuildable from precompute.py)
+# Generated artifacts (rebuildable from precompute.py / rank.py).
+# The final CSV is submitted via the hackathon portal upload (spec S10.1),
+# not via the repo -- the repo only needs to reproduce it on demand (S10.3).
 artifacts/
 *.parquet
 *.npz
+submission.csv
 
 # Local working notes / design docs (not part of the evaluated deliverable)
 docs/
