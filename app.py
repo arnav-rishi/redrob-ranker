@@ -79,10 +79,6 @@ def score_candidates(candidates: list, jd: dict, ontology: dict, weights: dict, 
 def main():
     st.set_page_config(page_title="redrob-ranker sandbox", layout="wide")
     st.title("redrob-ranker -- sandbox demo")
-    st.caption(
-        "Small-sample reproducibility check (≤100 candidates) per spec §10.5. "
-        "The real, full-100K-pool ranking step is `rank.py` -- see README.md."
-    )
 
     jd, ontology, weights, jd_text = load_configs()
 
