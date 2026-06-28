@@ -11,6 +11,7 @@ artifacts/
 *.parquet
 *.npz
 submission.csv
+demo_output.csv
 
 # Local working notes / design docs (not part of the evaluated deliverable)
 docs/
