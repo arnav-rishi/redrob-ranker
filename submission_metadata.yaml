@@ -25,7 +25,7 @@ team_members:
 # ============================================================================
 # Code and reproducibility
 # ============================================================================
-github_repo: "TODO: fill in after `git remote add` + `git push`"
+github_repo: "https://github.com/arnav-rishi/redrob-ranker"
 
 sandbox_link: "TODO: not built yet -- see Section 10.5 (HF Spaces / Streamlit / Replit / Colab / Docker / Binder)"
 
