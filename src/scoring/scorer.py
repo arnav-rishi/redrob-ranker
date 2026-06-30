@@ -156,6 +156,9 @@ def availability_mult(feat, weights, ref_date=None):
     m *= 0.7 + 0.3 * feat["interview_completion_rate"]
     m *= 0.85 + 0.15 * min(feat["profile_completeness"] / 100, 1)
     m *= 0.92 + 0.08 * min(feat["saved_by_recruiters_30d"] / 10, 1)
+    github = feat.get("github_activity_score", -1)
+    if github >= 0:
+        m *= 1.0 + 0.06 * min(github, 1.0)
     if days_since(feat.get("last_active_date"), ref_date) > a["inactive_days_threshold"]:
         m *= a["inactive_penalty_mult"]
     if feat["notice_period_days"] <= a["notice_period_ideal_days"]:

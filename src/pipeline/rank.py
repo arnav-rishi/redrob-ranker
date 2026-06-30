@@ -116,7 +116,12 @@ def stage0_prescore(df: pd.DataFrame, corpus_lines: list, jd: dict, ontology: di
     # acceptable band, even though the JD explicitly says "we'll seriously
     # consider candidates outside the band if other signals are strong."
     exp_band = df["yoe"].apply(lambda yoe: experience_fit(yoe, jd))
-    availability_cheap = df["open_to_work"].astype(float) * df["recruiter_response_rate"]
+    days_inactive = (
+        pd.Timestamp.today().normalize()
+        - pd.to_datetime(df["last_active_date"], errors="coerce")
+    ).dt.days.fillna(365)
+    recency = 1.0 - 0.5 * (days_inactive > 180).astype(float)
+    availability_cheap = df["open_to_work"].astype(float) * df["recruiter_response_rate"] * recency
 
     return (0.45 * role_hit
             + 0.25 * (skill_hits / len(must_have))
