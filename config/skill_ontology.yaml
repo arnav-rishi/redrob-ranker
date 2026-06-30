@@ -1,6 +1,6 @@
-# No-embedding semantic matcher: curated synonym groups. See docs/STEP3_SPEC.md
-# for the full rationale -- audited against the real 133-skill vocabulary in
-# candidates.jsonl, not guessed. Matching is substring/token-set against both
+# No-embedding semantic matcher: curated synonym groups, audited against the
+# real 133-skill vocabulary in candidates.jsonl, not guessed. Matching is
+# substring/token-set against both
 # the candidate's skill names AND profile_text.
 #
 # Three frequency tiers observed in the real data:

@@ -1,8 +1,4 @@
-"""Mechanical JSON -> flat feature dict transform. No JD logic, no scoring.
-
-See docs/STEP2_SPEC.md for rationale. Helper bodies (_best_tier, _is_cs_field,
-_flatten_text) were left unspecified in the original design doc; defined here.
-"""
+"""Mechanical JSON -> flat feature dict transform. No JD logic, no scoring."""
 
 _TIER_SCORE = {"tier_1": 1.0, "tier_2": 0.75, "tier_3": 0.5, "tier_4": 0.25, "unknown": 0.0}
 

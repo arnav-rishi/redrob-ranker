@@ -1,8 +1,8 @@
-"""Module 7: scorer. Six additive fit components + multipliers/gates.
-See docs/STEP5_SPEC.md for the full derivation, including the penalty-flag
-detectability audit (S1) and the availability-threshold recalibration (S3F).
-role_fit (Module 5) and integrity_mult (Module 7G) live in their own files
-(Step 4) -- this module covers 7A-7F + final wiring.
+"""Scorer: six additive fit components + multipliers/gates. Every penalty
+flag was audited for real detectability before being enabled, and the
+availability threshold was recalibrated against the real activity
+distribution rather than guessed. role_fit and integrity_mult live in their
+own files; this module covers the additive components + final wiring.
 """
 from datetime import date, datetime
 

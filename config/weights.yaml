@@ -1,5 +1,5 @@
 # Scoring weights and thresholds. Nothing hardcoded in scorer.py -- everything
-# tunable lives here. See docs/STEP5_SPEC.md for rationale.
+# tunable lives here.
 
 weights:
   skill: 0.34
@@ -19,7 +19,7 @@ trajectory_penalties:
   product_company_bonus_cap: 0.20
 
 availability:
-  inactive_days_threshold: 180    # recalibrated from 120, see docs/STEP5_SPEC.md S3F
+  inactive_days_threshold: 180    # recalibrated from 120 after profiling real last-active gaps
   inactive_penalty_mult: 0.75
   notice_period_ideal_days: 30
   notice_period_long_days: 90

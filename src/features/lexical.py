@@ -1,5 +1,5 @@
-"""Module 6: classical TF-IDF lexical similarity. Not a neural model -- one
-signal among many, never the decider. See docs/STEP5_SPEC.md S2.
+"""Classical TF-IDF lexical similarity. Not a neural model -- one signal
+among many, never the decider.
 """
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel

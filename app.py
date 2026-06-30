@@ -1,11 +1,10 @@
-"""Sandbox / demo app for spec S10.5 -- NOT the real ranking entrypoint.
+"""Hosted demo app -- NOT the real ranking entrypoint.
 
-Accepts a small candidate sample (<=100 rows, per spec: "does not need to
-handle the full 100K pool") and runs it through the same scoring modules
-`rank.py` uses, minus the Stage-0 funnel (pointless at this scale) and the
-parquet/artifact round-trip (nothing to precompute for a one-off upload).
-The full 100K-pool reproduction happens separately at Stage 3, against the
-real `rank.py`, in the organizers' own sandbox -- see README.md.
+Accepts a small candidate sample (<=100 rows) and runs it through the same
+scoring modules `rank.py` uses, minus the Stage-0 funnel (pointless at this
+scale) and the parquet/artifact round-trip (nothing to precompute for a
+one-off upload). The real, full-100K-pool ranking step is `rank.py` -- see
+README.md.
 
 Run locally with: streamlit run app.py
 """

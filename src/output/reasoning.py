@@ -1,11 +1,9 @@
-"""Module 9: reasoning generator. Fact-grounded, varied, honest about
-concerns. See docs/STEP6_SPEC.md S2.
+"""Reasoning generator. Fact-grounded, varied, honest about concerns.
 
 Anti-hallucination rule: every value referenced here comes from `feat` or an
 already-computed score component -- no invented employers/skills, no
-external knowledge. This is exactly what Stage-4 manual review checks
-(submission_spec.docx S3: "No hallucination... every claim corresponds to
-something actually in the candidate's profile").
+external knowledge. Every claim must correspond to something actually in the
+candidate's profile.
 """
 from src.scoring.scorer import days_since
 

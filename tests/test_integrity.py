@@ -11,8 +11,8 @@ from src.scoring.integrity import integrity_mult  # noqa: E402
 CANDIDATES_PATH = REPO_ROOT.parent / "candidates.jsonl"
 
 # Locked-in regression fixtures: specific real candidate_ids from each
-# honeypot cluster identified during STEP4_SPEC.md's recalibration (S1.2,
-# S1.1). If these ever flip, the integrity gate has regressed.
+# honeypot cluster identified during the integrity-gate recalibration.
+# If these ever flip, the integrity gate has regressed.
 EXPECTED_EXPERT_ZERO_CLUSTER = ["CAND_0003582", "CAND_0016000", "CAND_0033817"]
 EXPECTED_MISMATCH_CLUSTER = ["CAND_0001610", "CAND_0003430", "CAND_0005291"]
 EXPECTED_NORMAL = ["CAND_0000001", "CAND_0000002", "CAND_0000003"]
@@ -106,7 +106,7 @@ def test_full_pool_flagged_count_matches_calibration():
                 flagged += 1
     assert flagged == EXPECTED_TOTAL_FLAGGED_FULL_POOL, (
         f"expected {EXPECTED_TOTAL_FLAGGED_FULL_POOL} flagged, got {flagged} -- "
-        "integrity gate calibration has drifted, see docs/STEP4_SPEC.md S1"
+        "integrity gate calibration has drifted"
     )
 
 

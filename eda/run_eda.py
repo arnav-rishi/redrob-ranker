@@ -1,8 +1,8 @@
 """
-Step 1 EDA — answers STEP1_SPEC.md §6 questions A-H from the real data.
-No scoring/ranking logic here; this only measures the dataset so Steps 3-5
-(JD profile, role-fit thresholds, integrity thresholds) are calibrated
-from evidence instead of assumptions.
+Exploratory data analysis over the real candidate pool.
+No scoring/ranking logic here; this only measures the dataset so the JD
+profile, role-fit thresholds, and integrity thresholds are calibrated from
+evidence instead of assumptions.
 
 Usage (from repo root, i.e. inside redrob-ranker/):
     python eda/run_eda.py
@@ -215,8 +215,8 @@ def run(args):
                  "that same ID claims *\"HR Manager with 6.1 yrs; 9 AI core skills; response rate "
                  "0.76\"*. None of those facts match. **sample_submission.csv's reasoning column "
                  "is illustrative/fabricated, not computed from the real candidate records** "
-                 "(consistent with submission_spec.docx §9: \"not a high-quality ranking — only a "
-                 f"format reference\"). Do not treat its specific candidate_ids as confirmed "
+                 "(it's documented as a format reference only, not a high-quality ranking). "
+                 f"Do not treat its specific candidate_ids as confirmed "
                  f"keyword-stuffers; use the independent title+skill cross-tab above "
                  f"({len(stuffers)} candidates in this slice) as the real trap evidence "
                  f"instead.\n")
@@ -291,7 +291,7 @@ def run(args):
                                      [k for k, v in checks.items() if v]))
 
     flag_dist = Counter(flag_counts)
-    lines.append("## D. Honeypot prevalence (spec §7 expects ~80 in full 100K pool, i.e. "
+    lines.append("## D. Honeypot prevalence (documented as ~80 in the full 100K pool, i.e. "
                  "~0.08% of any representative slice)\n")
     for k in sorted(flag_dist):
         lines.append(f"  - flags == {k}: {flag_dist[k]} ({flag_dist[k] / n_total:.3%})\n")
@@ -315,16 +315,16 @@ def run(args):
         projections[thresh] = projected
         lines.append(f"  - flags >= {thresh}: {cnt} in slice ({cnt / n_total:.3%}) "
                      f"-> projected full-pool ≈ {projected:.0f}\n")
-    lines.append(f"\n**Implication:** spec expects ~80 honeypots in the full 100K pool. Our "
-                 f"flags>=3 threshold (RedRob.md's current `integrity_mult==0` cutoff) projects "
-                 f"≈{projections[3]:.0f} — i.e. it would let nearly all real honeypots through "
-                 f"undetected, since no candidate in the full 100K pool trips more than 2 of "
-                 f"our 4 checks simultaneously. flags>=1 projects ≈{projections[1]:.0f} "
+    lines.append(f"\n**Implication:** ~80 honeypots are documented as present in the full 100K "
+                 f"pool. Our flags>=3 threshold (RedRob.md's current `integrity_mult==0` cutoff) "
+                 f"projects ≈{projections[3]:.0f} — i.e. it would let nearly all real honeypots "
+                 f"through undetected, since no candidate in the full 100K pool trips more than "
+                 f"2 of our 4 checks simultaneously. flags>=1 projects ≈{projections[1]:.0f} "
                  f"(measured directly on the full 100K pool, not a projection from a slice), "
                  f"still ~14 short of the expected ~80.\n\n"
-                 f"**KNOWN GAP — flagged for Step 4, not resolved here:** per "
-                 f"STEP1_SPEC.md §8, threshold-freezing is explicitly out of scope for Step 1; "
-                 f"this is calibration evidence only. Step 4 must either (a) loosen these 4 "
+                 f"**KNOWN GAP — flagged for Step 4, not resolved here:** threshold-freezing was "
+                 f"deliberately deferred past this initial EDA pass; this is calibration "
+                 f"evidence only. Step 4 must either (a) loosen these 4 "
                  f"checks' thresholds (e.g. the 60-month YoE-mismatch cutoff or the "
                  f"duration_months<=1 cutoff may be too strict), or (b) add a detection check "
                  f"we're currently missing (e.g. company-founded-year vs. tenure — not "

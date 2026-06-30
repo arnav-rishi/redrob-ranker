@@ -1,5 +1,5 @@
-"""Module 10: output writer. Implements Fix A (tie-break rounding), agreed
-back at the very start of this project. See docs/STEP6_SPEC.md S3.
+"""Output writer. Rounds scores before sorting so the tie-break (equal score
+-> candidate_id ascending) is computed against the same value that's printed.
 """
 import csv
 

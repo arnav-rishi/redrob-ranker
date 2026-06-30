@@ -1,10 +1,10 @@
-"""Module 5: role-fit gate. The primary defense against keyword stuffers --
-a 'Marketing Manager' with 9 AI skills is capped here regardless of how high
-skill/lexical scores are. See docs/STEP4_SPEC.md S2.
+"""Role-fit gate. The primary defense against keyword stuffers -- a
+'Marketing Manager' with 9 AI skills is capped here regardless of how high
+skill/lexical scores are.
 
-Classification order: exact_title_map (all 47 real titles, Step 3 audit) ->
-substring fallback (role_titles, for titles unseen in this 100K) -> unknown
-(lean on career evidence).
+Classification order: exact_title_map (all 47 real titles, audited against
+the real title vocabulary) -> substring fallback (role_titles, for titles
+unseen in this 100K) -> unknown (lean on career evidence).
 """
 
 
@@ -41,9 +41,9 @@ _ML_CORROBORATION_GROUPS = ("retrieval_embeddings", "vector_search", "ranking_re
 
 
 def _ml_corroboration_terms(ontology: dict) -> list:
-    """Flattened term list reused from Step 3's audited skill_ontology.yaml --
+    """Flattened term list reused from the audited skill_ontology.yaml --
     single source of truth, no second hardcoded phrase list to drift out of
-    sync (see docs/STEP4_SPEC.md S2 decision)."""
+    sync."""
     terms = []
     for group in _ML_CORROBORATION_GROUPS:
         terms.extend(ontology.get(group, []))

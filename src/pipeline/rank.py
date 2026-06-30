@@ -1,11 +1,10 @@
 """Phase B (<=5 min, <=16GB RAM, CPU only, no network): the actual ranking
-step. Loads precomputed artifacts (Step 2/5), runs the two-stage funnel
-(Module 8), scores the shortlist, generates reasoning, writes the CSV.
-See docs/STEP6_SPEC.md.
+step. Loads precomputed artifacts, runs the two-stage funnel, scores the
+shortlist, generates reasoning, writes the CSV.
 
-Fails fast if artifacts/precompute hasn't been run yet (S4 of the spec) --
-this script is the one that gets timed for the 5-minute budget, so it must
-never silently trigger the unbounded Phase A precompute step itself.
+Fails fast if artifacts/precompute hasn't been run yet -- this script is the
+one that gets timed for the 5-minute budget, so it must never silently
+trigger the unbounded Phase A precompute step itself.
 
 Usage (from repo root, after running precompute.py once):
     python rank.py --candidates ../candidates.jsonl --out submission.csv

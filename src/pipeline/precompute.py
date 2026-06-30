@@ -1,9 +1,9 @@
 """Phase A (offline, unbounded): stream candidates.jsonl -> extract_features ->
 artifacts/features.parquet + artifacts/profile_corpus.txt.
 
-No 5-minute budget applies here (see docs/STEP2_SPEC.md) -- that's Phase B
-(src/pipeline/rank.py). This just needs to finish in reasonable time and stay
-under the ~4GB RAM target.
+No 5-minute budget applies here -- that's Phase B (src/pipeline/rank.py).
+This just needs to finish in reasonable time and stay under the ~4GB RAM
+target.
 
 Usage (from repo root):
     python -m src.pipeline.precompute
@@ -40,8 +40,8 @@ def run(candidates_path, out_dir, jd_text_path=None, weights_path=None):
         corpus_lines.append(feat.pop("profile_text"))
         # Nested skills/career/assessment dicts don't fit as flat parquet columns
         # -- serialize to JSON strings instead of maintaining a second lookup
-        # artifact (see STEP2_SPEC.md S2.1). Per-candidate payload is small
-        # (~1-2KB). Without this, pyarrow auto-converts dict columns into a
+        # artifact. Per-candidate payload is small (~1-2KB). Without this,
+        # pyarrow auto-converts dict columns into a
         # struct with the UNION of every key seen across all 100K rows, padding
         # each row with null for keys it doesn't have -- functionally harmless
         # for .get() lookups but massively bloats the file (verified: skipping
@@ -86,8 +86,7 @@ def run(candidates_path, out_dir, jd_text_path=None, weights_path=None):
         # this call, which understates the peak during the streaming loop.
         peak_bytes = getattr(mem, "peak_wset", mem.rss)
         peak_gb = peak_bytes / (1024 ** 3)
-        print(f"Peak RAM (process lifetime): {peak_gb:.2f} GB "
-              f"(target < 4 GB per STEP2_SPEC.md S3)")
+        print(f"Peak RAM (process lifetime): {peak_gb:.2f} GB (target < 4 GB)")
     except ImportError:
         print("psutil not installed -- skipping RAM report "
               "(pip install psutil to enable)")

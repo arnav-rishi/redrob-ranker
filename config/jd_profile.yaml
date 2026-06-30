@@ -1,7 +1,6 @@
-# JD profile, hand-encoded from job_description.docx. See docs/STEP3_SPEC.md
-# for the full rationale and the data audit (47 distinct titles, 133 distinct
-# skills) this was grounded against. No LLM parsing -- read once, encoded by
-# humans.
+# JD profile, hand-encoded from job_description.docx, grounded against a full
+# audit of the real candidate pool (47 distinct titles, 133 distinct skills).
+# No LLM parsing -- read once, encoded by humans.
 
 role: "Senior AI Engineer — Founding Team"
 
@@ -105,9 +104,9 @@ penalize:
   title_chasing: true                 # JD: Senior->Staff->Principal via <=1.5yr hops
   cv_speech_robotics_only: true        # JD: primary CV/speech/robotics, no NLP/IR exposure
   langchain_only_recent: true          # JD: only <12mo LangChain+OpenAI, no prior ML
-  # The 3 below were audited against the real data (docs/STEP5_SPEC.md S1) and
-  # found NOT cleanly detectable from this schema -- disabled rather than
-  # faking weak/broad detection:
+  # The 3 below were audited against the real data and found NOT cleanly
+  # detectable from this schema -- disabled rather than faking weak/broad
+  # detection:
   research_only_no_prod: false        # no signal: PhD is common+uniform (~17.5K),
                                        # zero headline/summary mentions of
                                        # "phd"/"research scientist"/"postdoc",

@@ -1,7 +1,7 @@
 """Streaming JSONL ingestion. Never materializes the full candidate list in memory.
 
-Fix C (see STEP1_SPEC.md §5): accepts both plain .jsonl and gzipped .jsonl.gz,
-since the released bundle ships uncompressed but the README documents .gz.
+Format-agnostic: accepts both plain .jsonl and gzipped .jsonl.gz, since the
+released bundle ships uncompressed but the README documents .gz.
 """
 import gzip
 import io

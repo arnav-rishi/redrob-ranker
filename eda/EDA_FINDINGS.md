@@ -71,7 +71,7 @@ Reference date for recency calculations: **2026-06-23** (today, via `date.today(
   - CAND_0001218 — actual: `AI Specialist`, 6.4 yrs (bucket=unknown), 6 AI-ish skill hits
   - CAND_0004558 — actual: `Frontend Engineer`, 6.8 yrs (bucket=unknown), 0 AI-ish skill hits
 
-**Finding:** spot-checked CAND_0004989 directly against candidates.jsonl: actual record is title=`Project Manager`, yoe=12.6, recruiter_response_rate=0.62 — but sample_submission.csv's reasoning text for that same ID claims *"HR Manager with 6.1 yrs; 9 AI core skills; response rate 0.76"*. None of those facts match. **sample_submission.csv's reasoning column is illustrative/fabricated, not computed from the real candidate records** (consistent with submission_spec.docx §9: "not a high-quality ranking — only a format reference"). Do not treat its specific candidate_ids as confirmed keyword-stuffers; use the independent title+skill cross-tab above (4955 candidates in this slice) as the real trap evidence instead.
+**Finding:** spot-checked CAND_0004989 directly against candidates.jsonl: actual record is title=`Project Manager`, yoe=12.6, recruiter_response_rate=0.62 — but sample_submission.csv's reasoning text for that same ID claims *"HR Manager with 6.1 yrs; 9 AI core skills; response rate 0.76"*. None of those facts match. **sample_submission.csv's reasoning column is illustrative/fabricated, not computed from the real candidate records** (it's documented as a format reference only, not a high-quality ranking). Do not treat its specific candidate_ids as confirmed keyword-stuffers; use the independent title+skill cross-tab above (4955 candidates in this slice) as the real trap evidence instead.
 
 **Implication:** the keyword-stuffer trap itself is real and present at non-trivial volume (4955/100000 ≈ 5.0% in this slice) — the role-fit gate is load-bearing, not theoretical. But the specific IDs in sample_submission.csv are not reliable evidence for it; our own cross-tab is.
 ---
@@ -86,7 +86,7 @@ Reference date for recency calculations: **2026-06-23** (today, via `date.today(
 
 **Implication:** see section D — this mismatch rate directly calibrates the integrity gate's YoE-consistency check.
 ---
-## D. Honeypot prevalence (spec §7 expects ~80 in full 100K pool, i.e. ~0.08% of any representative slice)
+## D. Honeypot prevalence (documented as ~80 in full 100K pool, i.e. ~0.08% of any representative slice)
   - flags == 0: 99934 (99.934%)
   - flags == 1: 51 (0.051%)
   - flags == 2: 15 (0.015%)
@@ -114,9 +114,9 @@ Projected full-100K-pool count at each candidate threshold for `integrity_mult =
   - flags >= 2: 15 in slice (0.015%) -> projected full-pool ≈ 15
   - flags >= 3: 0 in slice (0.000%) -> projected full-pool ≈ 0
 
-**Implication:** spec expects ~80 honeypots in the full 100K pool. Our flags>=3 threshold (RedRob.md's current `integrity_mult==0` cutoff) projects ≈0 — i.e. it would let nearly all real honeypots through undetected, since no candidate in the full 100K pool trips more than 2 of our 4 checks simultaneously. flags>=1 projects ≈66 (measured directly on the full 100K pool, not a projection from a slice), still ~14 short of the expected ~80.
+**Implication:** ~80 honeypots are documented as present in the full 100K pool. Our flags>=3 threshold (RedRob.md's current `integrity_mult==0` cutoff) projects ≈0 — i.e. it would let nearly all real honeypots through undetected, since no candidate in the full 100K pool trips more than 2 of our 4 checks simultaneously. flags>=1 projects ≈66 (measured directly on the full 100K pool, not a projection from a slice), still ~14 short of the expected ~80.
 
-**KNOWN GAP — flagged for Step 4, not resolved here:** per STEP1_SPEC.md §8, threshold-freezing is explicitly out of scope for Step 1; this is calibration evidence only. Step 4 must either (a) loosen these 4 checks' thresholds (e.g. the 60-month YoE-mismatch cutoff or the duration_months<=1 cutoff may be too strict), or (b) add a detection check we're currently missing (e.g. company-founded-year vs. tenure — not checkable from this schema since career_history has no company-founding-date field), or (c) accept catching a partial honeypot population if (a)/(b) don't close the gap. Whichever path is chosen, re-run this script to re-measure against the full pool before freezing `weights.yaml`.
+**KNOWN GAP — flagged for Step 4, not resolved here:** threshold-freezing was deliberately deferred past this initial EDA pass; this is calibration evidence only. Step 4 must either (a) loosen these 4 checks' thresholds (e.g. the 60-month YoE-mismatch cutoff or the duration_months<=1 cutoff may be too strict), or (b) add a detection check we're currently missing (e.g. company-founded-year vs. tenure — not checkable from this schema since career_history has no company-founding-date field), or (c) accept catching a partial honeypot population if (a)/(b) don't close the gap. Whichever path is chosen, re-run this script to re-measure against the full pool before freezing `weights.yaml`.
 ---
 ## E. Skill-name <-> assessment-key match (critical scorer dependency)
 - Assessment keys checked (candidates with non-empty skill_assessment_scores): 35895

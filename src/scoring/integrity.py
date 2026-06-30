@@ -1,13 +1,12 @@
-"""Module 7G: integrity/honeypot gate. Thresholds recalibrated from the real
-full-100K distributions, not guessed -- see docs/STEP4_SPEC.md S1 for the
-derivation. Each check below sits in a verified clean statistical gap between
-normal data noise and genuine impossibility; no graduated partial-credit
-tier is needed (confirmed binary 0/1 design, S1.6).
+"""Integrity/honeypot gate. Thresholds recalibrated from the real full-100K
+distributions, not guessed. Each check below sits in a verified clean
+statistical gap between normal data noise and genuine impossibility; no
+graduated partial-credit tier is needed -- confirmed binary 0/1 design.
 """
 
-YOE_MISMATCH_MONTHS_THRESHOLD = 24     # recalibrated from 60 -- see STEP4_SPEC.md S1.1
-EXPERT_ZERO_DURATION_MONTHS = 1        # advanced dropped -- never contributed, see S1.2
-LOW_ASSESSMENT_SCORE_THRESHOLD = 30    # unchanged, see S1.4
+YOE_MISMATCH_MONTHS_THRESHOLD = 24     # recalibrated from 60 after auditing real YoE-mismatch gaps
+EXPERT_ZERO_DURATION_MONTHS = 1        # advanced dropped -- never contributed to real flags
+LOW_ASSESSMENT_SCORE_THRESHOLD = 30    # unchanged from initial calibration
 
 
 def integrity_mult(feat: dict) -> float:

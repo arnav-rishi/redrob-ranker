@@ -20,8 +20,8 @@ RAM), CPU only.
 
 ## Reproduce
 
-Two steps, matching the spec's allowance for separate, unbounded
-pre-computation (§10.3) followed by a bounded ranking step:
+Two steps: an unbounded, offline pre-computation pass followed by the
+bounded ranking step:
 
 ```bash
 # Phase A -- offline pre-computation (unbounded time budget).
