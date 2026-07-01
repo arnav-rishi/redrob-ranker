@@ -15,7 +15,7 @@ import streamlit as st
 import yaml
 
 from src.features.extract import extract_features
-from src.features.lexical import fit_tfidf, lexical_sim
+from src.features.lexical import fit_bm25, score_all
 from src.output.reasoning import reasoning
 from src.output.writer import write_submission
 from src.scoring.integrity import integrity_mult
@@ -51,12 +51,8 @@ def _parse_candidates(raw_text: str) -> list:
 def score_candidates(candidates: list, jd: dict, ontology: dict, weights: dict, jd_text: str) -> list:
     feats = [extract_features(c) for c in candidates]
     corpus_lines = [f["profile_text"] for f in feats]
-    _, candidate_matrix, jd_vec = fit_tfidf(
-        corpus_lines, jd_text,
-        max_features=weights["lexical"]["max_features"],
-        ngram_range=tuple(weights["lexical"]["ngram_range"]),
-    )
-    sims = lexical_sim(candidate_matrix, jd_vec)
+    retriever, jd_tokens = fit_bm25(corpus_lines, jd_text)
+    sims = score_all(retriever, jd_tokens)
 
     results = []
     for i, feat in enumerate(feats):

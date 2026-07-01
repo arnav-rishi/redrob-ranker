@@ -30,5 +30,4 @@ skill_trust:
   text_corroboration_fallback: 0.45
 
 lexical:
-  max_features: 20000
-  ngram_range: [1, 2]
+  # BM25Okapi (rank-bm25) with library defaults: k1=1.5, b=0.75

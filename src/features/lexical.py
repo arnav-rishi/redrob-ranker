@@ -1,24 +1,27 @@
-"""Classical TF-IDF lexical similarity. Not a neural model -- one signal
-among many, never the decider.
+"""BM25 lexical similarity. Replaced TF-IDF: candidate profiles vary widely
+in length (80-800 words) and TF-IDF cosine similarity over-rewards verbose
+profiles. BM25's length normalisation (b=0.75) and term-frequency saturation
+(k1=1.5) fix both issues for JD-vs-profile retrieval.
 """
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import linear_kernel
+import numpy as np
+from rank_bm25 import BM25Okapi
 
 
-def fit_tfidf(profile_texts: list, jd_text: str, max_features=20000, ngram_range=(1, 2)):
-    """Fit on candidate profile texts + the JD reference text as one extra
-    doc, so the JD's own vocabulary is guaranteed to be in the fitted
-    vocabulary. Returns (vectorizer, candidate_matrix, jd_vector)."""
-    vec = TfidfVectorizer(max_features=max_features, ngram_range=tuple(ngram_range),
-                          stop_words="english", sublinear_tf=True)
-    matrix = vec.fit_transform(list(profile_texts) + [jd_text])
-    jd_vec = matrix[-1]
-    candidate_matrix = matrix[:-1]
-    return vec, candidate_matrix, jd_vec
+def _tokenize(text: str) -> list:
+    return (text or "").lower().split()
 
 
-def lexical_sim(candidate_matrix, jd_vec, idx=None):
-    """Cosine similarity (== linear_kernel on L2-normalized TF-IDF) between
-    the JD vector and one or more candidate rows."""
-    rows = candidate_matrix if idx is None else candidate_matrix[idx]
-    return linear_kernel(jd_vec, rows).ravel()
+def fit_bm25(profile_texts: list, jd_text: str):
+    """Fit BM25Okapi on corpus. Returns (retriever, jd_tokens)."""
+    retriever = BM25Okapi([_tokenize(t) for t in profile_texts])
+    return retriever, _tokenize(jd_text)
+
+
+def score_all(retriever: BM25Okapi, jd_tokens: list) -> np.ndarray:
+    """Score all corpus documents against the JD. Returns a min-max
+    normalised float array of shape (n_docs,) in original corpus order."""
+    raw = retriever.get_scores(jd_tokens)
+    lo, hi = raw.min(), raw.max()
+    if hi > lo:
+        return (raw - lo) / (hi - lo)
+    return np.full(len(raw), 0.5)

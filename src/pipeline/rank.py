@@ -18,11 +18,10 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
+import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
-import scipy.sparse as sp  # noqa: E402
 import yaml  # noqa: E402
 
-from src.features.lexical import lexical_sim  # noqa: E402
 from src.output.reasoning import reasoning  # noqa: E402
 from src.output.writer import write_submission  # noqa: E402
 from src.scoring.integrity import integrity_mult  # noqa: E402
@@ -37,7 +36,7 @@ _BUCKET_NUMERIC = {"strong": 1.0, "adjacent": 0.5, "reject": 0.0}
 
 
 def _require_artifacts(artifacts_dir: Path):
-    required = ["features.parquet", "profile_corpus.txt", "tfidf_index.npz", "tfidf_jd_vector.npz"]
+    required = ["features.parquet", "profile_corpus.txt", "bm25_scores.npy"]
     missing = [f for f in required if not (artifacts_dir / f).exists()]
     if missing:
         print(f"ERROR: missing precomputed artifacts in {artifacts_dir}: {missing}", file=sys.stderr)
@@ -129,14 +128,13 @@ def stage0_prescore(df: pd.DataFrame, corpus_lines: list, jd: dict, ontology: di
             + 0.15 * availability_cheap)
 
 
-def stage1_full_score(shortlist_df, corpus_lines, candidate_matrix, jd_vec, jd, ontology, weights):
-    sim_values = lexical_sim(candidate_matrix, jd_vec, idx=shortlist_df.index.to_numpy())
+def stage1_full_score(shortlist_df, corpus_lines, bm25_all_scores, jd, ontology, weights):
     results = []
-    for pos, (idx, row) in enumerate(shortlist_df.iterrows()):
+    for idx, row in shortlist_df.iterrows():
         feat = _row_to_feat(row, corpus_lines[idx])
         rf = role_fit(feat, jd, ontology)
         im = integrity_mult(feat)
-        lex = float(sim_values[pos])
+        lex = float(bm25_all_scores[idx])
         score = full_score(feat, jd, ontology, weights, rf, im, lex)
         evidence = skill_trust(feat, jd, ontology, weights)[1]
         traj_diag = trajectory_diagnostics(feat, jd)
@@ -157,15 +155,14 @@ def run(candidates_path, out_path, artifacts_dir, config_dir, shortlist_size=DEF
 
     df = pd.read_parquet(artifacts_dir / "features.parquet")
     corpus_lines = (artifacts_dir / "profile_corpus.txt").read_text(encoding="utf-8").split("\n")
-    candidate_matrix = sp.load_npz(artifacts_dir / "tfidf_index.npz")
-    jd_vec = sp.load_npz(artifacts_dir / "tfidf_jd_vector.npz")
+    bm25_all_scores = np.load(artifacts_dir / "bm25_scores.npy")
 
     pre = stage0_prescore(df, corpus_lines, jd, ontology)
     shortlist_df = df.loc[pre.nlargest(shortlist_size).index]
     print(f"Stage 0 done in {time.time() - start:.1f}s -- shortlisted {len(shortlist_df)} of {len(df)}")
 
     stage1_start = time.time()
-    scored = stage1_full_score(shortlist_df, corpus_lines, candidate_matrix, jd_vec, jd, ontology, weights)
+    scored = stage1_full_score(shortlist_df, corpus_lines, bm25_all_scores, jd, ontology, weights)
     print(f"Stage 1 done in {time.time() - stage1_start:.1f}s")
 
     top100 = sorted(scored, key=lambda r: -r["final_score"])[:100]
