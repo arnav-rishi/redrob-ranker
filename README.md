@@ -14,7 +14,7 @@ A deterministic, rule-based candidate ranker for the Redrob × India Runs
 (100K profiles) and a fixed Senior AI Engineer job description, it produces a
 top-100 ranking with a per-candidate reasoning string. No LLM calls, no
 embeddings, no GPU — everything at ranking time is hand-authored rules over
-precomputed features, a curated skill ontology, and a classical TF-IDF index.
+precomputed features, a curated skill ontology, and a BM25 lexical index.
 
 ## Setup
 
@@ -34,7 +34,7 @@ bounded ranking step:
 
 ```bash
 # Phase A -- offline pre-computation (unbounded time budget).
-# Extracts features, builds the TF-IDF index. Re-run only when candidates.jsonl
+# Extracts features, builds the BM25 index. Re-run only when candidates.jsonl
 # or config/ changes. ~50-60s for the full 100K pool, ~2GB peak RAM.
 python -m src.pipeline.precompute --candidates ./candidates.jsonl --out artifacts
 
@@ -54,10 +54,10 @@ stale, rather than silently re-running precompute inline and burning into the
    `src/pipeline/precompute.py`) — flattens each candidate's profile, career
    history, education, and skills into a flat feature row + a free-text
    profile blob.
-2. **Lexical index** (`src/features/lexical.py`) — TF-IDF over all 100K
-   profile texts against a hand-authored JD reference paragraph
-   (`config/jd_reference_text.txt`); fit once during precompute, reused at
-   ranking time.
+2. **Lexical index** (`src/features/lexical.py`) — BM25Okapi (rank-bm25,
+   k1=1.5 b=0.75) over all 100K profile texts against a hand-authored JD
+   reference paragraph (`config/jd_reference_text.txt`); fit once during
+   precompute, reused at ranking time.
 3. **Two-stage funnel** (`src/pipeline/rank.py`) — a cheap vectorized
    Stage-0 pre-score ranks all 100K candidates and shortlists ~2,000; only
    the shortlist goes through the full Stage-1 scorer. Keeps the ranking
@@ -99,7 +99,7 @@ honeypot count caught on the full pool), the scorer, and the lexical index.
 config/             jd_profile.yaml, skill_ontology.yaml, weights.yaml, jd_reference_text.txt
 src/
   ingestion/         format-agnostic candidates.jsonl[.gz] streaming
-  features/          feature extraction, TF-IDF lexical index
+  features/          feature extraction, BM25 lexical index
   scoring/           role-fit gate, integrity gate, scorer
   output/            reasoning generation, CSV writer
   pipeline/          precompute.py (Phase A), rank.py (Phase B)
