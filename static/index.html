@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RedRob Ranker — Senior AI Engineer</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <div class="brand">
+        <span class="logo">🏆</span>
+        <div>
+          <h1>RedRob Ranker</h1>
+          <p class="tag">Deterministic candidate ranking for a Senior AI Engineer role · No LLM · No GPU · No network</p>
+        </div>
+      </div>
+      <p class="team">Redrob × India Runs Hackathon — Team Arnav · Ansh · Rakshit</p>
+    </div>
+  </header>
+
+  <nav class="pills wrap">
+    <button class="pill active" data-tab="results">Top 100 (Full 100K)</button>
+    <button class="pill" data-tab="upload">Rank Your Own File</button>
+    <button class="pill" data-tab="how">How It Works</button>
+  </nav>
+
+  <main class="wrap">
+    <!-- ── Precomputed results ─────────────────────────────────────────── -->
+    <section id="tab-results" class="tab active">
+      <div class="bar">
+        <div class="stats" id="results-stats"></div>
+        <div class="actions">
+          <input id="filter" type="search" placeholder="Filter by title / id / reasoning…" />
+          <button id="dl-results" class="btn">⬇ CSV</button>
+        </div>
+      </div>
+      <div id="results-table" class="table-host"><p class="muted">Loading real top-100…</p></div>
+    </section>
+
+    <!-- ── Live upload ─────────────────────────────────────────────────── -->
+    <section id="tab-upload" class="tab">
+      <div class="drop" id="drop">
+        <p><strong>Drop a <code>.jsonl</code> or <code>.json</code> file here</strong> or click to browse.</p>
+        <p class="muted">Runs the exact same pipeline live (Stage-0 shortlist → BM25 → full scorer). Capped at 75&nbsp;MB on the hosted demo — the full 500&nbsp;MB pool is already shown in the Top 100 tab.</p>
+        <input id="file" type="file" accept=".jsonl,.json" hidden />
+      </div>
+      <div id="upload-status" class="upload-status"></div>
+      <div class="bar hidden" id="upload-bar">
+        <div class="stats" id="upload-stats"></div>
+        <div class="actions"><button id="dl-upload" class="btn">⬇ CSV</button></div>
+      </div>
+      <div id="upload-table" class="table-host"></div>
+    </section>
+
+    <!-- ── How it works ────────────────────────────────────────────────── -->
+    <section id="tab-how" class="tab">
+      <div class="cards">
+        <div class="card">
+          <h3>Two-phase pipeline</h3>
+          <p>Phase A precomputes 29 features per candidate and a BM25 index offline. Phase B — the timed step — filters 100K → 2,000 (Stage&nbsp;0), then deep-scores the shortlist to a Top&nbsp;100 in <strong>~28&nbsp;seconds</strong>.</p>
+        </div>
+        <div class="card">
+          <h3>Six additive base scores</h3>
+          <ul>
+            <li>Skill Trust — <b>34%</b></li>
+            <li>Career Trajectory — <b>20%</b></li>
+            <li>Experience Fit — <b>16%</b></li>
+            <li>Lexical (BM25) — <b>14%</b></li>
+            <li>Location — <b>10%</b></li>
+            <li>Education — <b>6%</b></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Three multiplicative gates</h3>
+          <p><b>Role-Fit</b> crushes keyword stuffers (a reject-title profile is multiplied by 0.15). <b>Integrity</b> zeroes out fraudulent profiles — it eliminates exactly <b>69 honeypots</b> in the 100K pool. <b>Availability</b> scales by responsiveness &amp; activity.</p>
+        </div>
+        <div class="card">
+          <h3>Fact-grounded reasoning</h3>
+          <p>Every reasoning string traces to a real number in the candidate's profile — title, years, matched skill groups, concerns. No hallucinated employers or skills.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap muted">
+    Deterministic · rule-based · reproducible. Same code path as <code>rank.py</code>. 34 automated tests.
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>

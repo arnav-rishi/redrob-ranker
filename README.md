@@ -48,6 +48,38 @@ python rank.py --candidates ./candidates.jsonl --out ./submission.csv
 stale, rather than silently re-running precompute inline and burning into the
 5-minute ranking budget.
 
+## Web demo (FastAPI)
+
+A minimal, framework-free web UI (`server.py` + `static/`) exposes the same
+pipeline as an app — no Streamlit, no build step:
+
+```bash
+uvicorn server:app --reload --port 7860
+# open http://localhost:7860
+```
+
+- **Top 100 (Full 100K)** — instantly shows the real precomputed ranking
+  (`data/top100.json`, generated from `submission.csv`). No artifacts needed
+  on the server.
+- **Rank Your Own File** — upload a `.jsonl`/`.json` (≤75 MB on the hosted
+  demo); the server runs the exact `src/` pipeline live (Stage-0 → BM25 →
+  full scorer) and returns a downloadable top-100.
+
+### Deploy
+
+The app is a standard persistent Python web server, so it runs on any host
+that keeps a process alive (Render, Railway, Fly, HF Spaces) — **not** Vercel,
+which is serverless-only.
+
+- **Render:** push to GitHub → New + → Blueprint → pick this repo
+  (`render.yaml` is read automatically).
+- **HF Spaces / any Docker host:** the `Dockerfile` runs
+  `uvicorn server:app` on `$PORT`.
+
+Free tiers sleep after ~15 min idle. Set the `APP_URL` repo secret to enable
+the `keep-alive` GitHub Action, or add an UptimeRobot HTTP monitor on
+`<url>/api/results`, so judges never hit a cold start.
+
 ## Architecture
 
 1. **Feature extraction** (`src/features/extract.py`, run inside

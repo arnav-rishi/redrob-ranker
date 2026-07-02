@@ -4,7 +4,7 @@
 # ============================================================================
 # Team identity
 # ============================================================================
-team_name: "TODO: fill in before portal upload"
+team_name: "hackaway"
 
 primary_contact:
   name: "TODO"
@@ -27,7 +27,7 @@ team_members:
 # ============================================================================
 github_repo: "https://github.com/arnav-rishi/redrob-ranker"
 
-sandbox_link: "TODO: not built yet -- see Section 10.5 (HF Spaces / Streamlit / Replit / Colab / Docker / Binder)"
+sandbox_link: "TODO: paste deployed URL after `git push` to Render/HF -- FastAPI app (server.py), Dockerfile + render.yaml included"
 
 reproduce_command: "python rank.py --candidates ./candidates.jsonl --out ./submission.csv"
 # Pre-computation (one-time, unbounded budget per S10.3) must be run first:
@@ -44,8 +44,8 @@ compute:
   os: "Windows 11 (build 10.0.26200)"
   uses_gpu_for_inference: false
   has_network_during_ranking: false
-  pre_computation_required: true                # features.parquet + TF-IDF index built offline
-  pre_computation_time_minutes: 1                # measured ~50-60s for the full 100K pool
+  pre_computation_required: true                # features.parquet + BM25 index built offline
+  pre_computation_time_minutes: 1                # measured ~42s for the full 100K pool (18s features + 24s BM25)
 
 # ============================================================================
 # AI tools declaration
@@ -71,7 +71,7 @@ methodology_summary: |
   candidates, shortlisting ~2,000 for a full scorer) keeps runtime well under
   the 5-minute budget. The full scorer combines six additive components
   (skill-trust against a curated skill ontology, career trajectory, years of
-  experience, TF-IDF lexical similarity to a hand-authored JD reference,
+  experience, BM25 lexical similarity to a hand-authored JD reference,
   location, education) with three multiplicative gates: a role-fit gate
   (exact + substring title matching) that defeats keyword-stuffing regardless
   of skill density, an integrity gate that zeroes out honeypot/impossible

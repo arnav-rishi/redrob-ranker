@@ -1,0 +1,606 @@
+{
+  "source": "Full 100,000-candidate pool (precomputed)",
+  "count": 100,
+  "results": [
+    {
+      "rank": 1,
+      "candidate_id": "CAND_0081846",
+      "score": 0.8552,
+      "reasoning": "Lead AI Engineer with 6.7 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 6+ yrs at product companies."
+    },
+    {
+      "rank": 2,
+      "candidate_id": "CAND_0046525",
+      "score": 0.8385,
+      "reasoning": "Senior Machine Learning Engineer with 6.1 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 6+ yrs at product companies."
+    },
+    {
+      "rank": 3,
+      "candidate_id": "CAND_0061257",
+      "score": 0.8263,
+      "reasoning": "Staff Machine Learning Engineer with 8.0 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 7+ yrs at product companies."
+    },
+    {
+      "rank": 4,
+      "candidate_id": "CAND_0079387",
+      "score": 0.8215,
+      "reasoning": "AI Engineer with 6.9 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 6+ yrs at product companies."
+    },
+    {
+      "rank": 5,
+      "candidate_id": "CAND_0077337",
+      "score": 0.8113,
+      "reasoning": "Staff Machine Learning Engineer with 7.0 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 6+ yrs at product companies."
+    },
+    {
+      "rank": 6,
+      "candidate_id": "CAND_0006418",
+      "score": 0.804,
+      "reasoning": "Machine Learning Engineer with 5.7 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 5+ yrs at product companies."
+    },
+    {
+      "rank": 7,
+      "candidate_id": "CAND_0052328",
+      "score": 0.8019,
+      "reasoning": "Recommendation Systems Engineer with 6.5 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 6+ yrs at product companies."
+    },
+    {
+      "rank": 8,
+      "candidate_id": "CAND_0064326",
+      "score": 0.8005,
+      "reasoning": "Search Engineer with 7.6 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 7+ yrs at product companies."
+    },
+    {
+      "rank": 9,
+      "candidate_id": "CAND_0006567",
+      "score": 0.7985,
+      "reasoning": "Senior AI Engineer with 7.9 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 7+ yrs at product companies."
+    },
+    {
+      "rank": 10,
+      "candidate_id": "CAND_0018499",
+      "score": 0.7977,
+      "reasoning": "Senior Machine Learning Engineer with 7.2 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 7+ yrs at product companies."
+    },
+    {
+      "rank": 11,
+      "candidate_id": "CAND_0052682",
+      "score": 0.797,
+      "reasoning": "NLP Engineer with 6.6 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 6+ yrs at product companies."
+    },
+    {
+      "rank": 12,
+      "candidate_id": "CAND_0011687",
+      "score": 0.7917,
+      "reasoning": "Senior NLP Engineer with 7.8 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 7+ yrs at product companies."
+    },
+    {
+      "rank": 13,
+      "candidate_id": "CAND_0046064",
+      "score": 0.7827,
+      "reasoning": "Senior NLP Engineer with 8.9 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 8+ yrs at product companies."
+    },
+    {
+      "rank": 14,
+      "candidate_id": "CAND_0088025",
+      "score": 0.78,
+      "reasoning": "Staff Machine Learning Engineer with 8.6 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 8+ yrs at product companies."
+    },
+    {
+      "rank": 15,
+      "candidate_id": "CAND_0002025",
+      "score": 0.775,
+      "reasoning": "Senior AI Engineer with 5.9 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 5+ yrs at product companies."
+    },
+    {
+      "rank": 16,
+      "candidate_id": "CAND_0071974",
+      "score": 0.773,
+      "reasoning": "Senior AI Engineer with 7.8 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 7+ yrs at product companies."
+    },
+    {
+      "rank": 17,
+      "candidate_id": "CAND_0041669",
+      "score": 0.7675,
+      "reasoning": "Recommendation Systems Engineer with 8.0 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 7+ yrs at product companies."
+    },
+    {
+      "rank": 18,
+      "candidate_id": "CAND_0030468",
+      "score": 0.7668,
+      "reasoning": "Senior Applied Scientist with 5.4 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 5+ yrs at product companies."
+    },
+    {
+      "rank": 19,
+      "candidate_id": "CAND_0078002",
+      "score": 0.7539,
+      "reasoning": "Machine Learning Engineer with 6.3 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 6+ yrs at product companies."
+    },
+    {
+      "rank": 20,
+      "candidate_id": "CAND_0069905",
+      "score": 0.7437,
+      "reasoning": "Applied ML Engineer with 6.6 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 6+ yrs at product companies."
+    },
+    {
+      "rank": 21,
+      "candidate_id": "CAND_0042100",
+      "score": 0.7404,
+      "reasoning": "Machine Learning Engineer with 7.3 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 7+ yrs at product companies. Concern: outside preferred India hubs."
+    },
+    {
+      "rank": 22,
+      "candidate_id": "CAND_0058688",
+      "score": 0.7396,
+      "reasoning": "AI Engineer with 6.7 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 6+ yrs at product companies. Concern: outside preferred India hubs."
+    },
+    {
+      "rank": 23,
+      "candidate_id": "CAND_0020708",
+      "score": 0.7339,
+      "reasoning": "Search Engineer with 4.2 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 4+ yrs at product companies."
+    },
+    {
+      "rank": 24,
+      "candidate_id": "CAND_0010685",
+      "score": 0.7305,
+      "reasoning": "NLP Engineer with 6.7 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 6+ yrs at product companies."
+    },
+    {
+      "rank": 25,
+      "candidate_id": "CAND_0099806",
+      "score": 0.7241,
+      "reasoning": "AI Engineer with 4.6 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 4+ yrs at product companies."
+    },
+    {
+      "rank": 26,
+      "candidate_id": "CAND_0000031",
+      "score": 0.7228,
+      "reasoning": "Recommendation Systems Engineer with 6.0 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 5+ yrs at product companies."
+    },
+    {
+      "rank": 27,
+      "candidate_id": "CAND_0039383",
+      "score": 0.7169,
+      "reasoning": "Applied ML Engineer with 7.1 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 7+ yrs at product companies."
+    },
+    {
+      "rank": 28,
+      "candidate_id": "CAND_0064904",
+      "score": 0.7169,
+      "reasoning": "AI Engineer with 4.9 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 4+ yrs at product companies."
+    },
+    {
+      "rank": 29,
+      "candidate_id": "CAND_0005538",
+      "score": 0.7167,
+      "reasoning": "Senior AI Engineer with 5.9 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 5+ yrs at product companies."
+    },
+    {
+      "rank": 30,
+      "candidate_id": "CAND_0016659",
+      "score": 0.7092,
+      "reasoning": "ML Engineer with 4.4 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 4+ yrs at product companies."
+    },
+    {
+      "rank": 31,
+      "candidate_id": "CAND_0075249",
+      "score": 0.7083,
+      "reasoning": "Applied ML Engineer with 6.2 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 6+ yrs at product companies."
+    },
+    {
+      "rank": 32,
+      "candidate_id": "CAND_0008425",
+      "score": 0.7059,
+      "reasoning": "Senior NLP Engineer with 7.8 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 7+ yrs at product companies."
+    },
+    {
+      "rank": 33,
+      "candidate_id": "CAND_0062247",
+      "score": 0.7041,
+      "reasoning": "AI Engineer with 7.3 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 7+ yrs at product companies."
+    },
+    {
+      "rank": 34,
+      "candidate_id": "CAND_0027691",
+      "score": 0.7032,
+      "reasoning": "NLP Engineer with 6.5 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 6+ yrs at product companies."
+    },
+    {
+      "rank": 35,
+      "candidate_id": "CAND_0018722",
+      "score": 0.7031,
+      "reasoning": "Recommendation Systems Engineer with 6.6 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 6+ yrs at product companies. Concern: outside preferred India hubs."
+    },
+    {
+      "rank": 36,
+      "candidate_id": "CAND_0065195",
+      "score": 0.701,
+      "reasoning": "Search Engineer with 5.1 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 5+ yrs at product companies."
+    },
+    {
+      "rank": 37,
+      "candidate_id": "CAND_0065786",
+      "score": 0.6994,
+      "reasoning": "AI Specialist with 4.9 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 4+ yrs at product companies."
+    },
+    {
+      "rank": 38,
+      "candidate_id": "CAND_0076163",
+      "score": 0.6991,
+      "reasoning": "NLP Engineer with 6.9 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 6+ yrs at product companies."
+    },
+    {
+      "rank": 39,
+      "candidate_id": "CAND_0036184",
+      "score": 0.6971,
+      "reasoning": "Recommendation Systems Engineer with 6.0 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 5+ yrs at product companies."
+    },
+    {
+      "rank": 40,
+      "candidate_id": "CAND_0010257",
+      "score": 0.6966,
+      "reasoning": "Senior Data Scientist with 6.5 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 6+ yrs at product companies. Concern: 120-day notice."
+    },
+    {
+      "rank": 41,
+      "candidate_id": "CAND_0037980",
+      "score": 0.6963,
+      "reasoning": "Senior Applied Scientist with 9.0 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 8+ yrs at product companies."
+    },
+    {
+      "rank": 42,
+      "candidate_id": "CAND_0074225",
+      "score": 0.6958,
+      "reasoning": "Machine Learning Engineer with 4.3 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 4+ yrs at product companies. Concern: 120-day notice."
+    },
+    {
+      "rank": 43,
+      "candidate_id": "CAND_0053591",
+      "score": 0.6924,
+      "reasoning": "AI Engineer with 5.3 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 5+ yrs at product companies. Concern: outside preferred India hubs."
+    },
+    {
+      "rank": 44,
+      "candidate_id": "CAND_0055905",
+      "score": 0.6902,
+      "reasoning": "Senior Machine Learning Engineer with 8.1 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 8+ yrs at product companies. Concern: outside preferred India hubs."
+    },
+    {
+      "rank": 45,
+      "candidate_id": "CAND_0081053",
+      "score": 0.6892,
+      "reasoning": "NLP Engineer with 5.4 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 5+ yrs at product companies."
+    },
+    {
+      "rank": 46,
+      "candidate_id": "CAND_0074735",
+      "score": 0.6851,
+      "reasoning": "Applied ML Engineer with 5.5 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 5+ yrs at product companies."
+    },
+    {
+      "rank": 47,
+      "candidate_id": "CAND_0054394",
+      "score": 0.685,
+      "reasoning": "Recommendation Systems Engineer with 4.1 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 4+ yrs at product companies."
+    },
+    {
+      "rank": 48,
+      "candidate_id": "CAND_0053605",
+      "score": 0.6839,
+      "reasoning": "Senior Software Engineer (ML) with 6.9 yrs; strong on retrieval embeddings, vector search, python; 3+ yrs at product companies."
+    },
+    {
+      "rank": 49,
+      "candidate_id": "CAND_0093193",
+      "score": 0.6826,
+      "reasoning": "Senior Machine Learning Engineer with 7.9 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 7+ yrs at product companies."
+    },
+    {
+      "rank": 50,
+      "candidate_id": "CAND_0007412",
+      "score": 0.6814,
+      "reasoning": "Applied ML Engineer with 7.4 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 7+ yrs at product companies. Concern: 120-day notice."
+    },
+    {
+      "rank": 51,
+      "candidate_id": "CAND_0072688",
+      "score": 0.6799,
+      "reasoning": "Data Scientist with 6.9 yrs; strong on retrieval embeddings, vector search, ranking recsys; 6+ yrs at product companies."
+    },
+    {
+      "rank": 52,
+      "candidate_id": "CAND_0040887",
+      "score": 0.6797,
+      "reasoning": "Machine Learning Engineer with 4.7 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 4+ yrs at product companies. Concern: outside preferred India hubs."
+    },
+    {
+      "rank": 53,
+      "candidate_id": "CAND_0051615",
+      "score": 0.6796,
+      "reasoning": "Search Engineer with 4.6 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 4+ yrs at product companies."
+    },
+    {
+      "rank": 54,
+      "candidate_id": "CAND_0079064",
+      "score": 0.6796,
+      "reasoning": "Senior Data Scientist with 5.2 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 5+ yrs at product companies. Concern: 120-day notice."
+    },
+    {
+      "rank": 55,
+      "candidate_id": "CAND_0039838",
+      "score": 0.678,
+      "reasoning": "Recommendation Systems Engineer with 4.9 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 4+ yrs at product companies."
+    },
+    {
+      "rank": 56,
+      "candidate_id": "CAND_0017960",
+      "score": 0.6775,
+      "reasoning": "Recommendation Systems Engineer with 7.7 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 7+ yrs at product companies."
+    },
+    {
+      "rank": 57,
+      "candidate_id": "CAND_0007009",
+      "score": 0.6753,
+      "reasoning": "Recommendation Systems Engineer with 7.9 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 7+ yrs at product companies."
+    },
+    {
+      "rank": 58,
+      "candidate_id": "CAND_0093912",
+      "score": 0.675,
+      "reasoning": "Senior Data Scientist with 5.3 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 5+ yrs at product companies."
+    },
+    {
+      "rank": 59,
+      "candidate_id": "CAND_0043860",
+      "score": 0.6747,
+      "reasoning": "Junior ML Engineer with 6.1 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 6+ yrs at product companies."
+    },
+    {
+      "rank": 60,
+      "candidate_id": "CAND_0044222",
+      "score": 0.6743,
+      "reasoning": "AI Engineer with 7.7 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 7+ yrs at product companies."
+    },
+    {
+      "rank": 61,
+      "candidate_id": "CAND_0050876",
+      "score": 0.6718,
+      "reasoning": "Applied ML Engineer with 6.0 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 5+ yrs at product companies."
+    },
+    {
+      "rank": 62,
+      "candidate_id": "CAND_0098846",
+      "score": 0.6687,
+      "reasoning": "AI Engineer with 7.6 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 7+ yrs at product companies."
+    },
+    {
+      "rank": 63,
+      "candidate_id": "CAND_0086022",
+      "score": 0.6677,
+      "reasoning": "Senior Applied Scientist with 5.3 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 5+ yrs at product companies."
+    },
+    {
+      "rank": 64,
+      "candidate_id": "CAND_0008295",
+      "score": 0.6668,
+      "reasoning": "AI Research Engineer with 6.5 yrs; strong on vector search, python, ranking recsys; 4+ yrs at product companies."
+    },
+    {
+      "rank": 65,
+      "candidate_id": "CAND_0005649",
+      "score": 0.6624,
+      "reasoning": "Senior Data Scientist with 7.4 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 7+ yrs at product companies."
+    },
+    {
+      "rank": 66,
+      "candidate_id": "CAND_0043637",
+      "score": 0.6616,
+      "reasoning": "Junior ML Engineer with 5.5 yrs; strong on vector search, python, ranking recsys; 5+ yrs at product companies."
+    },
+    {
+      "rank": 67,
+      "candidate_id": "CAND_0061339",
+      "score": 0.6602,
+      "reasoning": "Search Engineer with 4.2 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 4+ yrs at product companies."
+    },
+    {
+      "rank": 68,
+      "candidate_id": "CAND_0030031",
+      "score": 0.6594,
+      "reasoning": "AI Engineer with 5.7 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 5+ yrs at product companies."
+    },
+    {
+      "rank": 69,
+      "candidate_id": "CAND_0070525",
+      "score": 0.6594,
+      "reasoning": "Senior Software Engineer (ML) with 5.4 yrs; strong on retrieval embeddings, python, ranking recsys; 5+ yrs at product companies."
+    },
+    {
+      "rank": 70,
+      "candidate_id": "CAND_0091909",
+      "score": 0.6588,
+      "reasoning": "Machine Learning Engineer with 6.9 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 6+ yrs at product companies."
+    },
+    {
+      "rank": 71,
+      "candidate_id": "CAND_0063736",
+      "score": 0.6576,
+      "reasoning": "Data Scientist with 3.7 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 3+ yrs at product companies."
+    },
+    {
+      "rank": 72,
+      "candidate_id": "CAND_0061265",
+      "score": 0.6575,
+      "reasoning": "Recommendation Systems Engineer with 6.6 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 6+ yrs at product companies. Concern: 120-day notice."
+    },
+    {
+      "rank": 73,
+      "candidate_id": "CAND_0098454",
+      "score": 0.6549,
+      "reasoning": "AI Specialist with 6.6 yrs; strong on vector search, python, ranking recsys; 4+ yrs at product companies."
+    },
+    {
+      "rank": 74,
+      "candidate_id": "CAND_0093763",
+      "score": 0.6545,
+      "reasoning": "Senior Software Engineer (ML) with 5.0 yrs; strong on retrieval embeddings, vector search, python; 4+ yrs at product companies."
+    },
+    {
+      "rank": 75,
+      "candidate_id": "CAND_0011432",
+      "score": 0.6526,
+      "reasoning": "Senior Data Scientist with 7.6 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 7+ yrs at product companies."
+    },
+    {
+      "rank": 76,
+      "candidate_id": "CAND_0075574",
+      "score": 0.6521,
+      "reasoning": "Machine Learning Engineer with 5.7 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 5+ yrs at product companies."
+    },
+    {
+      "rank": 77,
+      "candidate_id": "CAND_0050454",
+      "score": 0.6509,
+      "reasoning": "AI Engineer with 6.8 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 6+ yrs at product companies."
+    },
+    {
+      "rank": 78,
+      "candidate_id": "CAND_0011162",
+      "score": 0.6505,
+      "reasoning": "Recommendation Systems Engineer with 5.8 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 5+ yrs at product companies."
+    },
+    {
+      "rank": 79,
+      "candidate_id": "CAND_0054546",
+      "score": 0.6499,
+      "reasoning": "AI Research Engineer with 4.9 yrs; strong on vector search, python, ranking recsys; 4+ yrs at product companies."
+    },
+    {
+      "rank": 80,
+      "candidate_id": "CAND_0054318",
+      "score": 0.6493,
+      "reasoning": "AI Research Engineer with 3.5 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 3+ yrs at product companies."
+    },
+    {
+      "rank": 81,
+      "candidate_id": "CAND_0040117",
+      "score": 0.649,
+      "reasoning": "Recommendation Systems Engineer with 6.5 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 6+ yrs at product companies."
+    },
+    {
+      "rank": 82,
+      "candidate_id": "CAND_0078492",
+      "score": 0.6432,
+      "reasoning": "Recommendation Systems Engineer with 5.1 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 5+ yrs at product companies."
+    },
+    {
+      "rank": 83,
+      "candidate_id": "CAND_0068351",
+      "score": 0.6424,
+      "reasoning": "Lead AI Engineer with 6.4 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 6+ yrs at product companies."
+    },
+    {
+      "rank": 84,
+      "candidate_id": "CAND_0096142",
+      "score": 0.6424,
+      "reasoning": "Applied ML Engineer with 5.0 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 5+ yrs at product companies. Concern: 120-day notice."
+    },
+    {
+      "rank": 85,
+      "candidate_id": "CAND_0037160",
+      "score": 0.6411,
+      "reasoning": "Data Scientist with 6.0 yrs; strong on retrieval embeddings, vector search, ranking recsys; 4+ yrs at product companies."
+    },
+    {
+      "rank": 86,
+      "candidate_id": "CAND_0083852",
+      "score": 0.6392,
+      "reasoning": "Data Scientist with 6.0 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 5+ yrs at product companies."
+    },
+    {
+      "rank": 87,
+      "candidate_id": "CAND_0018549",
+      "score": 0.638,
+      "reasoning": "Recommendation Systems Engineer with 6.8 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 6+ yrs at product companies."
+    },
+    {
+      "rank": 88,
+      "candidate_id": "CAND_0052335",
+      "score": 0.6372,
+      "reasoning": "Applied ML Engineer with 6.4 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 6+ yrs at product companies. Concern: outside preferred India hubs."
+    },
+    {
+      "rank": 89,
+      "candidate_id": "CAND_0067866",
+      "score": 0.6349,
+      "reasoning": "Senior Software Engineer (ML) with 6.4 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 3+ yrs at product companies."
+    },
+    {
+      "rank": 90,
+      "candidate_id": "CAND_0044213",
+      "score": 0.6347,
+      "reasoning": "AI Specialist with 3.7 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 3+ yrs at product companies."
+    },
+    {
+      "rank": 91,
+      "candidate_id": "CAND_0086154",
+      "score": 0.6336,
+      "reasoning": "Data Scientist with 6.8 yrs; strong on vector search, python; 6+ yrs at product companies."
+    },
+    {
+      "rank": 92,
+      "candidate_id": "CAND_0084819",
+      "score": 0.6325,
+      "reasoning": "Search Engineer with 4.5 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 4+ yrs at product companies. Concern: 120-day notice."
+    },
+    {
+      "rank": 93,
+      "candidate_id": "CAND_0015578",
+      "score": 0.6323,
+      "reasoning": "AI Engineer with 5.4 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 5+ yrs at product companies."
+    },
+    {
+      "rank": 94,
+      "candidate_id": "CAND_0076482",
+      "score": 0.6302,
+      "reasoning": "ML Engineer with 6.6 yrs; strong on retrieval embeddings, vector search, python; 5+ yrs at product companies. Concern: outside preferred India hubs."
+    },
+    {
+      "rank": 95,
+      "candidate_id": "CAND_0007596",
+      "score": 0.6283,
+      "reasoning": "Junior ML Engineer with 4.4 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 4+ yrs at product companies."
+    },
+    {
+      "rank": 96,
+      "candidate_id": "CAND_0030784",
+      "score": 0.6275,
+      "reasoning": "Data Scientist with 4.4 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 4+ yrs at product companies."
+    },
+    {
+      "rank": 97,
+      "candidate_id": "CAND_0042506",
+      "score": 0.625,
+      "reasoning": "Search Engineer with 4.2 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 4+ yrs at product companies."
+    },
+    {
+      "rank": 98,
+      "candidate_id": "CAND_0046459",
+      "score": 0.6228,
+      "reasoning": "AI Research Engineer with 4.5 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 3+ yrs at product companies."
+    },
+    {
+      "rank": 99,
+      "candidate_id": "CAND_0061655",
+      "score": 0.6219,
+      "reasoning": "Machine Learning Engineer with 4.6 yrs; strong on retrieval embeddings, vector search, python, ranking recsys, evaluation; 4+ yrs at product companies."
+    },
+    {
+      "rank": 100,
+      "candidate_id": "CAND_0037566",
+      "score": 0.6168,
+      "reasoning": "Machine Learning Engineer with 6.9 yrs; strong on retrieval embeddings, vector search, python, ranking recsys; 6+ yrs at product companies."
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+# Render deploy config. Push this repo to GitHub, then on render.com:
+#   New +  →  Blueprint  →  pick this repo. Render reads render.yaml and deploys.
+# Free tier sleeps after ~15 min idle; a first visit wakes it in ~30-60s.
+# Use an UptimeRobot HTTP monitor on the URL to keep it warm for judges.
+services:
+  - type: web
+    name: redrob-ranker
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn server:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/results
+    autoDeploy: true
