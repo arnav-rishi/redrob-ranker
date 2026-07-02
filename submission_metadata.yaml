@@ -79,7 +79,8 @@ methodology_summary: |
   location, education) with three multiplicative gates: a role-fit gate
   (exact + substring title matching) that defeats keyword-stuffing regardless
   of skill density, an integrity gate that zeroes out honeypot/impossible
-  profiles (YoE-vs-company-age mismatches, zero-duration "expert" claims), and
+  profiles (experience-vs-career-duration mismatches, single jobs longer than
+  a candidate's total experience, zero-duration "expert" skill claims), and
   an availability multiplier built from behavioral signals (recruiter
   response rate, recent activity, notice period). Every threshold was
   calibrated against the real distribution of the full candidate pool rather

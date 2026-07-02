@@ -51,7 +51,7 @@ stale, rather than silently re-running precompute inline and burning into the
 ## Web demo (FastAPI)
 
 A minimal, framework-free web UI (`server.py` + `static/`) exposes the same
-pipeline as an app — no Streamlit, no build step:
+pipeline as an app — plain HTML/CSS/JS, no frontend build step:
 
 ```bash
 uvicorn server:app --reload --port 7860
