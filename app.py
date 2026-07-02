@@ -11,21 +11,33 @@ Run locally with: streamlit run app.py
 import csv
 import io
 import json
+import sys
+import traceback
 from pathlib import Path
 
-import streamlit as st
-import yaml
+# Pin repo root first in sys.path so `import src` always resolves to
+# src/ inside this repo and not to Streamlit Cloud's /mount/src/ mount point.
+_REPO_ROOT = Path(__file__).resolve().parent
+if str(_REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT))
 
-from src.features.extract import extract_features
-from src.features.lexical import fit_bm25, score_all
-from src.output.reasoning import reasoning
-from src.scoring.integrity import integrity_mult
-from src.scoring.role_fit import role_fit
-from src.scoring.scorer import (
-    full_score, location_score, skill_trust, trajectory_diagnostics,
-)
+import streamlit as st  # noqa: E402
+import yaml  # noqa: E402
 
-REPO_ROOT = Path(__file__).resolve().parent
+try:
+    from src.features.extract import extract_features
+    from src.features.lexical import fit_bm25, score_all
+    from src.output.reasoning import reasoning
+    from src.scoring.integrity import integrity_mult
+    from src.scoring.role_fit import role_fit
+    from src.scoring.scorer import (
+        full_score, location_score, skill_trust, trajectory_diagnostics,
+    )
+    _IMPORT_ERROR = None
+except Exception as _e:
+    _IMPORT_ERROR = _e
+
+REPO_ROOT = _REPO_ROOT
 CONFIG_DIR = REPO_ROOT / "config"
 SAMPLE_PATH = REPO_ROOT / "sample_candidates.json"
 MAX_ROWS = 100
@@ -76,7 +88,17 @@ def main():
     st.set_page_config(page_title="redrob-ranker sandbox", layout="wide")
     st.title("redrob-ranker -- sandbox demo")
 
-    jd, ontology, weights, jd_text = load_configs()
+    if _IMPORT_ERROR is not None:
+        st.error("Import error on startup -- see details below.")
+        st.code(traceback.format_exc())
+        st.stop()
+
+    try:
+        jd, ontology, weights, jd_text = load_configs()
+    except Exception as e:
+        st.error(f"Failed to load config files: {e}")
+        st.code(traceback.format_exc())
+        st.stop()
 
     uploaded = st.file_uploader(
         "Upload a small candidates file (.jsonl or .json, ≤100 rows)",
@@ -98,31 +120,35 @@ def main():
     st.write(f"Loaded **{len(candidates)}** candidates from `{source_label}`.")
 
     if st.button("Run ranking", type="primary"):
-        with st.spinner(f"Scoring {len(candidates)} candidates..."):
-            results = score_candidates(candidates, jd, ontology, weights, jd_text)
-            top_n = min(100, len(results))
-            ranked = sorted(results, key=lambda r: -r["final_score"])[:top_n]
-            for r in ranked:
-                r["score_out"] = round(r["final_score"], 4)
-            ranked.sort(key=lambda r: (-r["score_out"], r["candidate_id"]))
-            buf = io.StringIO()
-            w = csv.writer(buf)
-            w.writerow(["candidate_id", "rank", "score", "reasoning"])
-            for i, r in enumerate(ranked, 1):
-                w.writerow([r["candidate_id"], i, f"{r['score_out']:.4f}", r["reasoning"]])
-            csv_bytes = buf.getvalue().encode("utf-8")
+        try:
+            with st.spinner(f"Scoring {len(candidates)} candidates..."):
+                results = score_candidates(candidates, jd, ontology, weights, jd_text)
+                top_n = min(100, len(results))
+                ranked = sorted(results, key=lambda r: -r["final_score"])[:top_n]
+                for r in ranked:
+                    r["score_out"] = round(r["final_score"], 4)
+                ranked.sort(key=lambda r: (-r["score_out"], r["candidate_id"]))
+                buf = io.StringIO()
+                w = csv.writer(buf)
+                w.writerow(["candidate_id", "rank", "score", "reasoning"])
+                for i, r in enumerate(ranked, 1):
+                    w.writerow([r["candidate_id"], i, f"{r['score_out']:.4f}", r["reasoning"]])
+                csv_bytes = buf.getvalue().encode("utf-8")
 
-        st.success(f"Ranked {len(results)} candidates.")
-        st.dataframe(
-            [{"rank": i + 1, **r} for i, r in enumerate(ranked)],
-            use_container_width=True,
-        )
-        st.download_button(
-            "Download ranked CSV",
-            csv_bytes,
-            file_name="demo_submission.csv",
-            mime="text/csv",
-        )
+            st.success(f"Ranked {len(results)} candidates.")
+            st.dataframe(
+                [{"rank": i + 1, **r} for i, r in enumerate(ranked)],
+                use_container_width=True,
+            )
+            st.download_button(
+                "Download ranked CSV",
+                csv_bytes,
+                file_name="demo_submission.csv",
+                mime="text/csv",
+            )
+        except Exception as e:
+            st.error(f"Scoring failed: {e}")
+            st.code(traceback.format_exc())
 
 
 if __name__ == "__main__":
