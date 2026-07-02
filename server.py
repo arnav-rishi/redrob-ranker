@@ -43,7 +43,7 @@ CONFIG_DIR      = REPO_ROOT / "config"
 STATIC_DIR      = REPO_ROOT / "static"
 TOP100_PATH     = REPO_ROOT / "data" / "top100.json"
 SHORTLIST_SIZE  = 2000
-MAX_UPLOAD_MB   = 75          # free-tier RAM guard; the full 500MB pool uses the precomputed view
+MAX_UPLOAD_MB   = 75          # RAM guard for the hosted demo; the sandbox spec only needs <=100 candidates
 _BUCKET_NUMERIC = {"strong": 1.0, "adjacent": 0.5, "reject": 0.0}
 
 
@@ -175,8 +175,8 @@ async def rank(file: UploadFile = File(...)):
     if size_mb > MAX_UPLOAD_MB:
         raise HTTPException(
             413,
-            f"File is {size_mb:.0f} MB. Live ranking is capped at {MAX_UPLOAD_MB} MB "
-            "on the hosted demo — the full 100K pool is already shown in the precomputed view.",
+            f"File is {size_mb:.0f} MB — larger than this demo accepts. Try a smaller "
+            "sample, or see the full 100,000-candidate ranking in the Top 100 tab.",
         )
 
     try:

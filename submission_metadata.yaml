@@ -7,20 +7,24 @@
 team_name: "hackaway"
 
 primary_contact:
-  name: "TODO"
-  email: "TODO"
-  phone: "TODO"
+  name: "Arnav Mishra"
+  email: "arnav.rishi2005@gmail.com"
+  phone: "8103346247"
 
 team_members:
-  - name: "Arnav"
-    email: "TODO"
-    role: "TODO"
-  - name: "Ansh"
-    email: "TODO"
-    role: "TODO"
-  - name: "Rakshit"
-    email: "TODO"
-    role: "TODO"
+  - name: "Arnav Mishra"
+    email: "arnav.rishi2005@gmail.com"
+    role: "Team lead: system architecture, scoring engine (scorer + weights),
+      two-stage ranking pipeline, and the hosted web app"
+  - name: "Ansh Jerath"
+    email: "darkhorse0204@gmail.com"
+    role: "Feature extraction, BM25 lexical index, and exploratory data analysis"
+  - name: "Dhruv Asodaria"
+    email: "dhruvasodaria220@gmail.com"
+    role: "Reasoning generation and CSV output/writer"
+  - name: "Rakshit Srivastava"
+    email: "rakshit14dec@gmail.com"
+    role: "Role-fit & integrity gates and the pytest test suite"
 
 # ============================================================================
 # Code and reproducibility

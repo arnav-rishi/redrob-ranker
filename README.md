@@ -61,9 +61,10 @@ uvicorn server:app --reload --port 7860
 - **Top 100 (Full 100K)** — instantly shows the real precomputed ranking
   (`data/top100.json`, generated from `submission.csv`). No artifacts needed
   on the server.
-- **Rank Your Own File** — upload a `.jsonl`/`.json` (≤75 MB on the hosted
-  demo); the server runs the exact `src/` pipeline live (Stage-0 → BM25 →
-  full scorer) and returns a downloadable top-100.
+- **Rank Your Own File** — upload a `.jsonl`/`.json` sample; the server runs
+  the exact `src/` pipeline live (Stage-0 → BM25 → full scorer) and returns a
+  downloadable top-100. (The hosted demo guards against oversized uploads; the
+  sandbox spec only requires ≤100 candidates.)
 
 ### Deploy
 
