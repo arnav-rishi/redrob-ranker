@@ -1,3 +1,12 @@
+---
+title: redrob-ranker
+emoji: 🏆
+colorFrom: blue
+colorTo: green
+sdk: docker
+pinned: false
+---
+
 # redrob-ranker
 
 A deterministic, rule-based candidate ranker for the Redrob × India Runs
