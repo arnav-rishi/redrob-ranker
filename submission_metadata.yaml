@@ -31,7 +31,7 @@ team_members:
 # ============================================================================
 github_repo: "https://github.com/arnav-rishi/redrob-ranker"
 
-sandbox_link: "TODO: paste deployed URL after `git push` to Render/HF -- FastAPI app (server.py), Dockerfile + render.yaml included"
+sandbox_link: "https://huggingface.co/spaces/arnav616/redrob-ranker"
 
 reproduce_command: "python rank.py --candidates ./candidates.jsonl --out ./submission.csv"
 # Pre-computation (one-time, unbounded budget per S10.3) must be run first:
