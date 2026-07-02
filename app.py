@@ -1,19 +1,18 @@
-"""Hosted demo app -- NOT the real ranking entrypoint.
+"""Streamlit demo -- upload candidates.jsonl and get the ranked top-100 CSV.
 
-Accepts a small candidate sample (<=100 rows) and runs it through the same
-scoring modules `rank.py` uses, minus the Stage-0 funnel (pointless at this
-scale) and the parquet/artifact round-trip (nothing to precompute for a
-one-off upload). The real, full-100K-pool ranking step is `rank.py` -- see
-README.md.
-
-Run locally with: streamlit run app.py
+Mirrors rank.py exactly: streams the file to avoid loading 500MB into memory,
+runs Stage-0 pre-score to shortlist ~2000, fits BM25 on the full corpus, then
+full-scores only the shortlist. Run locally with: streamlit run app.py
 """
 import csv
 import io
 import json
 import sys
 import traceback
+from datetime import date, datetime
 from pathlib import Path
+
+import numpy as np
 
 # Pin repo root first in sys.path so `import src` always resolves to
 # src/ inside this repo and not to Streamlit Cloud's /mount/src/ mount point.
@@ -29,9 +28,10 @@ try:
     from src.features.lexical import fit_bm25, score_all
     from src.output.reasoning import reasoning
     from src.scoring.integrity import integrity_mult
-    from src.scoring.role_fit import role_fit
+    from src.scoring.role_fit import classify_via_substring, role_fit
     from src.scoring.scorer import (
-        full_score, location_score, skill_trust, trajectory_diagnostics,
+        experience_fit, full_score, group_in_text,
+        location_score, skill_trust, trajectory_diagnostics,
     )
     _IMPORT_ERROR = None
 except Exception as _e:
@@ -40,7 +40,8 @@ except Exception as _e:
 REPO_ROOT = _REPO_ROOT
 CONFIG_DIR = REPO_ROOT / "config"
 SAMPLE_PATH = REPO_ROOT / "sample_candidates.json"
-MAX_ROWS = 100
+SHORTLIST_SIZE = 2000
+_BUCKET_NUMERIC = {"strong": 1.0, "adjacent": 0.5, "reject": 0.0}
 
 
 @st.cache_resource
@@ -52,41 +53,113 @@ def load_configs():
     return jd, ontology, weights, jd_text
 
 
-def _parse_candidates(raw_text: str) -> list:
-    """Accept either a JSON array (like sample_candidates.json) or
-    newline-delimited JSON (like candidates.jsonl)."""
-    stripped = raw_text.strip()
-    if stripped.startswith("["):
-        return json.loads(stripped)
-    return [json.loads(line) for line in stripped.splitlines() if line.strip()]
+def _role_bucket_numeric(title, jd):
+    bucket = jd["exact_title_map"].get((title or "").strip().lower())
+    if bucket is None:
+        bucket = classify_via_substring((title or "").strip().lower(), jd["role_titles"])
+    return _BUCKET_NUMERIC.get(bucket, 0.3)
 
 
-def score_candidates(candidates: list, jd: dict, ontology: dict, weights: dict, jd_text: str) -> list:
-    feats = [extract_features(c) for c in candidates]
-    corpus_lines = [f["profile_text"] for f in feats]
+def _skill_group_hit_count(text, must_have, ontology):
+    return sum(1 for g in must_have if group_in_text(g, text, ontology))
+
+
+def _days_since(date_str):
+    if not date_str:
+        return 365
+    try:
+        return (date.today() - datetime.strptime(date_str, "%Y-%m-%d").date()).days
+    except ValueError:
+        return 365
+
+
+def _stage0_prescore(feats, corpus_lines, jd, ontology):
+    must_have = jd["must_have"]
+    role_hit  = np.array([_role_bucket_numeric(f["current_title"], jd) for f in feats])
+    skill_hits = np.array([_skill_group_hit_count(t, must_have, ontology) for t in corpus_lines])
+    exp_band  = np.array([experience_fit(f["yoe"], jd) for f in feats])
+    days_inactive = np.array([_days_since(f.get("last_active_date")) for f in feats])
+    recency   = 1.0 - 0.5 * (days_inactive > 180)
+    avail     = np.array([float(f["open_to_work"]) * f["recruiter_response_rate"] for f in feats]) * recency
+    return 0.45 * role_hit + 0.25 * (skill_hits / max(len(must_have), 1)) + 0.15 * exp_band + 0.15 * avail
+
+
+def _iter_jsonl(uploaded_file):
+    """Yield parsed candidate dicts from an uploaded JSONL or JSON file."""
+    first_chunk = True
+    for raw_line in uploaded_file:
+        line = raw_line.decode("utf-8", errors="replace").strip()
+        if not line:
+            continue
+        if first_chunk and line.startswith("["):
+            # JSON array -- load fully (only reasonable for small files)
+            rest = line + uploaded_file.read().decode("utf-8", errors="replace")
+            for c in json.loads(rest):
+                yield c
+            return
+        first_chunk = False
+        try:
+            yield json.loads(line)
+        except json.JSONDecodeError:
+            continue
+
+
+def rank_pool(uploaded_file, jd, ontology, weights, jd_text):
+    """Stream features from uploaded file, Stage-0 shortlist, BM25 + full score."""
+    feats, corpus_lines = [], []
+    for c in _iter_jsonl(uploaded_file):
+        feat = extract_features(c)
+        corpus_lines.append(feat.pop("profile_text"))
+        feats.append(feat)
+
+    n = len(feats)
+    if n == 0:
+        return [], 0
+
+    # Stage-0: cheap pre-score → shortlist
+    if n > SHORTLIST_SIZE:
+        pre = _stage0_prescore(feats, corpus_lines, jd, ontology)
+        shortlist_idx = np.argsort(pre)[::-1][:SHORTLIST_SIZE].tolist()
+    else:
+        shortlist_idx = list(range(n))
+
+    # BM25 on full corpus (proper IDF needs all docs)
     retriever, jd_tokens = fit_bm25(corpus_lines, jd_text)
-    sims = score_all(retriever, jd_tokens)
+    bm25 = score_all(retriever, jd_tokens)
 
+    # Full score on shortlist only
     results = []
-    for i, feat in enumerate(feats):
-        rf = role_fit(feat, jd, ontology)
-        im = integrity_mult(feat)
-        lex = float(sims[i])
+    for i in shortlist_idx:
+        feat = feats[i]
+        feat["profile_text"] = corpus_lines[i]
+        rf  = role_fit(feat, jd, ontology)
+        im  = integrity_mult(feat)
+        lex = float(bm25[i])
         score = full_score(feat, jd, ontology, weights, rf, im, lex)
-        evidence = skill_trust(feat, jd, ontology, weights)[1]
-        traj_diag = trajectory_diagnostics(feat, jd)
-        loc_score = location_score(feat, jd)
+        evidence   = skill_trust(feat, jd, ontology, weights)[1]
+        traj_diag  = trajectory_diagnostics(feat, jd)
+        loc_score  = location_score(feat, jd)
         results.append({
             "candidate_id": feat["candidate_id"],
-            "final_score": score,
-            "reasoning": reasoning(feat, evidence, traj_diag, loc_score),
+            "final_score":  score,
+            "reasoning":    reasoning(feat, evidence, traj_diag, loc_score),
         })
-    return results
+
+    return results, n
+
+
+def _build_csv(ranked):
+    buf = io.StringIO()
+    w = csv.writer(buf)
+    w.writerow(["candidate_id", "rank", "score", "reasoning"])
+    for i, r in enumerate(ranked, 1):
+        w.writerow([r["candidate_id"], i, f"{r['score_out']:.4f}", r["reasoning"]])
+    return buf.getvalue().encode("utf-8")
 
 
 def main():
-    st.set_page_config(page_title="redrob-ranker sandbox", layout="wide")
-    st.title("redrob-ranker -- sandbox demo")
+    st.set_page_config(page_title="redrob-ranker", layout="wide")
+    st.title("redrob-ranker")
 
     if _IMPORT_ERROR is not None:
         st.error("Import error on startup -- see details below.")
@@ -101,53 +174,62 @@ def main():
         st.stop()
 
     uploaded = st.file_uploader(
-        "Upload a small candidates file (.jsonl or .json, ≤100 rows)",
+        "Upload candidates.jsonl (or a small .json sample)",
         type=["jsonl", "json"],
     )
 
-    if uploaded is not None:
-        candidates = _parse_candidates(uploaded.read().decode("utf-8"))
-        source_label = uploaded.name
-    else:
+    if uploaded is None:
         st.info(f"No file uploaded -- using the bundled sample ({SAMPLE_PATH.name}, 50 candidates).")
-        candidates = json.loads(SAMPLE_PATH.read_text(encoding="utf-8"))
-        source_label = SAMPLE_PATH.name
-
-    if len(candidates) > MAX_ROWS:
-        st.warning(f"{source_label} has {len(candidates)} rows -- truncating to the first {MAX_ROWS}.")
-        candidates = candidates[:MAX_ROWS]
-
-    st.write(f"Loaded **{len(candidates)}** candidates from `{source_label}`.")
 
     if st.button("Run ranking", type="primary"):
         try:
-            with st.spinner(f"Scoring {len(candidates)} candidates..."):
-                results = score_candidates(candidates, jd, ontology, weights, jd_text)
-                top_n = min(100, len(results))
-                ranked = sorted(results, key=lambda r: -r["final_score"])[:top_n]
-                for r in ranked:
-                    r["score_out"] = round(r["final_score"], 4)
-                ranked.sort(key=lambda r: (-r["score_out"], r["candidate_id"]))
-                buf = io.StringIO()
-                w = csv.writer(buf)
-                w.writerow(["candidate_id", "rank", "score", "reasoning"])
-                for i, r in enumerate(ranked, 1):
-                    w.writerow([r["candidate_id"], i, f"{r['score_out']:.4f}", r["reasoning"]])
-                csv_bytes = buf.getvalue().encode("utf-8")
+            if uploaded is not None:
+                with st.spinner("Streaming candidates and ranking..."):
+                    results, n_total = rank_pool(uploaded, jd, ontology, weights, jd_text)
+            else:
+                with st.spinner("Ranking bundled sample..."):
+                    sample = json.loads(SAMPLE_PATH.read_text(encoding="utf-8"))
+                    feats = [extract_features(c) for c in sample]
+                    corpus_lines = [f.pop("profile_text") for f in feats]
+                    retriever, jd_tokens = fit_bm25(corpus_lines, jd_text)
+                    bm25 = score_all(retriever, jd_tokens)
+                    results = []
+                    for i, feat in enumerate(feats):
+                        feat["profile_text"] = corpus_lines[i]
+                        rf  = role_fit(feat, jd, ontology)
+                        im  = integrity_mult(feat)
+                        lex = float(bm25[i])
+                        score = full_score(feat, jd, ontology, weights, rf, im, lex)
+                        evidence  = skill_trust(feat, jd, ontology, weights)[1]
+                        traj_diag = trajectory_diagnostics(feat, jd)
+                        loc_score = location_score(feat, jd)
+                        results.append({
+                            "candidate_id": feat["candidate_id"],
+                            "final_score":  score,
+                            "reasoning":    reasoning(feat, evidence, traj_diag, loc_score),
+                        })
+                    n_total = len(sample)
 
-            st.success(f"Ranked {len(results)} candidates.")
+            top100 = sorted(results, key=lambda r: -r["final_score"])[:100]
+            for r in top100:
+                r["score_out"] = round(r["final_score"], 4)
+            top100.sort(key=lambda r: (-r["score_out"], r["candidate_id"]))
+
+            st.success(f"Ranked {n_total} candidates -- showing top {len(top100)}.")
             st.dataframe(
-                [{"rank": i + 1, **r} for i, r in enumerate(ranked)],
+                [{"rank": i + 1, "candidate_id": r["candidate_id"],
+                  "score": r["score_out"], "reasoning": r["reasoning"]}
+                 for i, r in enumerate(top100)],
                 use_container_width=True,
             )
             st.download_button(
-                "Download ranked CSV",
-                csv_bytes,
-                file_name="demo_submission.csv",
+                "Download top-100 CSV",
+                _build_csv(top100),
+                file_name="submission.csv",
                 mime="text/csv",
             )
         except Exception as e:
-            st.error(f"Scoring failed: {e}")
+            st.error(f"Ranking failed: {e}")
             st.code(traceback.format_exc())
 
 
