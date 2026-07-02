@@ -20,5 +20,5 @@ jobs:
         run: |
           git config user.email "ci@github"
           git config user.name "GitHub Actions"
-          git remote add hf https://arnav-rishi:${HF_TOKEN}@huggingface.co/spaces/arnav-rishi/redrob-ranker
+          git remote add hf https://arnav616:${HF_TOKEN}@huggingface.co/spaces/arnav616/redrob-ranker
           git push hf HEAD:main --force
