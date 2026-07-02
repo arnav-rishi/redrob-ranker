@@ -8,6 +8,8 @@ README.md.
 
 Run locally with: streamlit run app.py
 """
+import csv
+import io
 import json
 from pathlib import Path
 
@@ -17,7 +19,6 @@ import yaml
 from src.features.extract import extract_features
 from src.features.lexical import fit_bm25, score_all
 from src.output.reasoning import reasoning
-from src.output.writer import write_submission
 from src.scoring.integrity import integrity_mult
 from src.scoring.role_fit import role_fit
 from src.scoring.scorer import (
@@ -101,8 +102,15 @@ def main():
             results = score_candidates(candidates, jd, ontology, weights, jd_text)
             top_n = min(100, len(results))
             ranked = sorted(results, key=lambda r: -r["final_score"])[:top_n]
-            out_path = REPO_ROOT / "demo_output.csv"
-            write_submission(ranked, out_path)
+            for r in ranked:
+                r["score_out"] = round(r["final_score"], 4)
+            ranked.sort(key=lambda r: (-r["score_out"], r["candidate_id"]))
+            buf = io.StringIO()
+            w = csv.writer(buf)
+            w.writerow(["candidate_id", "rank", "score", "reasoning"])
+            for i, r in enumerate(ranked, 1):
+                w.writerow([r["candidate_id"], i, f"{r['score_out']:.4f}", r["reasoning"]])
+            csv_bytes = buf.getvalue().encode("utf-8")
 
         st.success(f"Ranked {len(results)} candidates.")
         st.dataframe(
@@ -111,7 +119,7 @@ def main():
         )
         st.download_button(
             "Download ranked CSV",
-            out_path.read_bytes(),
+            csv_bytes,
             file_name="demo_submission.csv",
             mime="text/csv",
         )
